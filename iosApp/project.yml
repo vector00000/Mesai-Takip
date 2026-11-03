@@ -1,0 +1,25 @@
+name: MesaiTakip
+options:
+  bundleIdPrefix: com.aistudio.mesaitakip
+  deploymentTarget:
+    iOS: "16.0"
+  developmentLanguage: tr
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: com.aistudio.mesaitakip.kvnrpd
+    MARKETING_VERSION: "31.0"
+    CURRENT_PROJECT_VERSION: "31"
+    SWIFT_VERSION: "5.9"
+targets:
+  MesaiTakip:
+    type: application
+    platform: iOS
+    sources:
+      - path: MesaiTakip
+    info:
+      path: MesaiTakip/Info.plist
+    settings:
+      base:
+        INFOPLIST_FILE: MesaiTakip/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.aistudio.mesaitakip.kvnrpd
+        TARGETED_DEVICE_FAMILY: "1,2"

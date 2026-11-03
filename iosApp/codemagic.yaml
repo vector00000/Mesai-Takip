@@ -1,0 +1,34 @@
+workflows:
+  ios-app-store-workflow:
+    name: Mesai Takip iOS App Store Release
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    working_directory: iosApp
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.aistudio.mesaitakip.kvnrpd
+      vars:
+        XCODE_PROJECT: "MesaiTakip.xcodeproj"
+        XCODE_SCHEME: "MesaiTakip"
+      xcode: latest
+    scripts:
+      - name: Generate Xcode project with XcodeGen
+        script: |
+          brew install xcodegen
+          xcodegen generate
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Build ipa for distribution
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

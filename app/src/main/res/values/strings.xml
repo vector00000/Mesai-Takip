@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mesai Takip</string>
+    <string name="support_title">Uygulamaya Destek Ol ❤️</string>
+    <string name="support_description">Mesai Takip uygulamasının geliştirme, bakım ve sunucu giderlerine gönüllü olarak katkıda bulunabilirsiniz.</string>
+    <string name="support_disclaimer">Bu destek karşılığında herhangi bir dijital içerik, özellik, avantaj veya ayrıcalık verilmez. Uygulamanın tüm özellikleri herkes için ücretsizdir.</string>
+    <string name="support_button">❤️ Destek Ol</string>
+</resources>

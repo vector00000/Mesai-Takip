@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+  <channel>
+    <title>RA App Studio</title>
+    <link>https://raappstudio.online/</link>
+    <description>RA App Studio - Mobil Uygulama, Web Sitesi ve Özel Yazılım Çözümleri</description>
+    <item>
+      <g:id>RAAPP-WEB-001</g:id>
+      <title>Kurumsal Web Sitesi</title>
+      <g:title>Kurumsal Web Sitesi</g:title>
+      <description>RA App Studio profesyonel kurumsal web sitesi geliştirme hizmeti. Responsive mobil uyumlu tasarım, kurumsal tanıtım sayfaları, iletişim alanı, WhatsApp entegrasyonu ve temel SEO optimizasyonu dahildir.</description>
+      <g:description>RA App Studio profesyonel kurumsal web sitesi geliştirme hizmeti. Responsive mobil uyumlu tasarım, kurumsal tanıtım sayfaları, iletişim alanı, WhatsApp entegrasyonu ve temel SEO optimizasyonu dahildir.</g:description>
+      <link>https://raappstudio.online/?hizmet=kurumsal-web-sitesi</link>
+      <g:link>https://raappstudio.online/?hizmet=kurumsal-web-sitesi</g:link>
+      <g:image_link>https://raappstudio.online/logo.png</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:quantity>100</g:quantity>
+      <g:price>7500.00 TRY</g:price>
+      <g:brand>RA App Studio</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:mpn>RAAPP-WEB-001</g:mpn>
+      <g:google_product_category>313</g:google_product_category>
+      <g:product_type>Yazılım &gt; Web Sitesi Geliştirme</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Elektronik Teslimat</g:service>
+        <g:price>0.00 TRY</g:price>
+      </g:shipping>
+    </item>
+    <item>
+      <g:id>RAAPP-MOBIL-002</g:id>
+      <title>Mobil Uygulama</title>
+      <g:title>Mobil Uygulama</g:title>
+      <description>RA App Studio profesyonel mobil uygulama geliştirme hizmeti. iOS ve Android uyumlu modern mobil arayüz, kullanıcı kayıt sistemi, veritabanı entegrasyonu, yönetim paneli özellikleri ve anlık bildirim altyapısı dahildir.</description>
+      <g:description>RA App Studio profesyonel mobil uygulama geliştirme hizmeti. iOS ve Android uyumlu modern mobil arayüz, kullanıcı kayıt sistemi, veritabanı entegrasyonu, yönetim paneli özellikleri ve anlık bildirim altyapısı dahildir.</g:description>
+      <link>https://raappstudio.online/?hizmet=mobil-uygulama</link>
+      <g:link>https://raappstudio.online/?hizmet=mobil-uygulama</g:link>
+      <g:image_link>https://raappstudio.online/logo.png</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:quantity>100</g:quantity>
+      <g:price>25000.00 TRY</g:price>
+      <g:brand>RA App Studio</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:mpn>RAAPP-MOBIL-002</g:mpn>
+      <g:google_product_category>313</g:google_product_category>
+      <g:product_type>Yazılım &gt; Mobil Uygulama Geliştirme</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Elektronik Teslimat</g:service>
+        <g:price>0.00 TRY</g:price>
+      </g:shipping>
+    </item>
+    <item>
+      <g:id>RAAPP-OZEL-003</g:id>
+      <title>Özel Yazılım</title>
+      <g:title>Özel Yazılım</g:title>
+      <description>RA App Studio işletmelere özel yazılım geliştirme hizmeti. İşletmeye özel sistem mimarisi, yönetici paneli, kullanıcı ve yetki yönetim sistemi, gelişmiş veri raporlama ve şirkete özel iş akışları dahildir.</description>
+      <g:description>RA App Studio işletmelere özel yazılım geliştirme hizmeti. İşletmeye özel sistem mimarisi, yönetici paneli, kullanıcı ve yetki yönetim sistemi, gelişmiş veri raporlama ve şirkete özel iş akışları dahildir.</g:description>
+      <link>https://raappstudio.online/?hizmet=ozel-yazilim</link>
+      <g:link>https://raappstudio.online/?hizmet=ozel-yazilim</g:link>
+      <g:image_link>https://raappstudio.online/logo.png</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:quantity>100</g:quantity>
+      <g:price>40000.00 TRY</g:price>
+      <g:brand>RA App Studio</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:mpn>RAAPP-OZEL-003</g:mpn>
+      <g:google_product_category>313</g:google_product_category>
+      <g:product_type>Yazılım &gt; Özel Yazılım Çözümleri</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Elektronik Teslimat</g:service>
+        <g:price>0.00 TRY</g:price>
+      </g:shipping>
+    </item>
+  </channel>
+</rss>

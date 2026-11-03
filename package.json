@@ -1,0 +1,17 @@
+{
+  "name": "mesai-takip",
+  "version": "3.7.0",
+  "description": "Mesai Takip Güvenli iyzico Ödeme Sunucusu",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "iyzipay": "^2.0.70"
+  }
+}

@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>RA App Studio | Mobil Uygulama, Web ve Özel Yazılım</title>
+
+<meta name="description" content="RA App Studio - Mobil uygulama, web sitesi ve işletmelere özel yazılım çözümleri.">
+<meta name="author" content="Recep Aydemir - RA App Studio">
+
+<link rel="icon" href="logo.png">
+
+<style>
+
+/* =========================
+   GENEL
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #102a43;
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+.container {
+    width: 92%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    position: relative;
+    z-index: 10;
+    background: #ffffff;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.brand img {
+    width: 42px !important;
+    height: 42px !important;
+    max-width: 42px !important;
+    object-fit: contain;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-left: auto;
+}
+
+nav a {
+    font-size: 14px;
+    color: #243b53;
+    transition: .2s;
+}
+
+nav a:hover {
+    color: #1597e5;
+}
+
+.menu-btn {
+    display: none;
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+}
+
+
+/* =========================
+   BUTONLAR
+========================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 11px 20px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg,#098ee8,#27b4e8);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0,145,220,.20);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+}
+
+.btn-whatsapp {
+    background: #20c978;
+    color: #ffffff;
+}
+
+.btn-outline {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #17324d !important;
+    text-decoration: none !important;
+}
+
+.contact-actions .contact-email,
+.contact-actions .contact-payment {
+    min-width: 190px;
+    color: #17324d !important;
+    background: #ffffff !important;
+    border: 2px solid rgba(255,255,255,.95);
+}
+
+.contact-actions .contact-email:hover,
+.contact-actions .contact-payment:hover {
+    background: #f2f8fc !important;
+    transform: translateY(-1px);
+}
+
+.btn-play {
+    background: #168fe0;
+    color: #ffffff;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    padding: 100px 0;
+    background:
+        radial-gradient(circle at top right, rgba(31,171,236,.18), transparent 35%),
+        linear-gradient(180deg,#f7fbff,#ffffff);
+}
+
+.kicker {
+    color: #138edb;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    max-width: 850px;
+    font-size: clamp(40px,6vw,72px);
+    line-height: 1.05;
+    margin: 0 0 25px;
+    color: #102a43;
+}
+
+.gradient {
+    display: block;
+    background: linear-gradient(90deg,#087fe5,#21b4ea);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    max-width: 760px;
+    font-size: 19px;
+    color: #526b82;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+section {
+    padding: 85px 0;
+}
+
+.soft {
+    background: #f3f9fd;
+}
+
+.section-head {
+    margin-bottom: 38px;
+}
+
+.section-head h2 {
+    font-size: clamp(30px,4vw,45px);
+    line-height: 1.15;
+    margin: 0 0 15px;
+    color: #102a43;
+}
+
+.section-head p {
+    color: #60788e;
+    max-width: 760px;
+}
+
+
+/* =========================
+   GRID / KARTLAR
+========================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e1edf5;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 8px 30px rgba(15,60,90,.05);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #123452;
+}
+
+.card p {
+    color: #60788e;
+}
+
+.icon {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+
+/* =========================
+   CHECKLER
+========================= */
+
+.checks {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}
+
+.check {
+    background: #ffffff;
+    border: 1px solid #e0edf5;
+    border-radius: 12px;
+    padding: 17px 20px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   ADIMLAR
+========================= */
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+}
+
+.step-no {
+    display: inline-flex;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #e9f6fd;
+    color: #0a8fdf;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+
+/* =========================
+   REFERANSLAR
+========================= */
+
+.featured-project {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 35px;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 30px;
+    border: 1px solid #e0edf5;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 10px 35px rgba(15,60,90,.05);
+}
+
+.project-media {
+    width: 100%;
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #f4f9fc;
+}
+
+.project-media img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.project-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 50px;
+    background: #eef5fa;
+    color: #49647b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.badge-green {
+    background: #e6f9ef;
+    color: #16834d;
+}
+
+.project-content h3 {
+    font-size: 30px;
+    margin: 8px 0;
+}
+
+.project-content p {
+    color: #60788e;
+}
+
+.project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.project-types {
+    margin-top: 35px;
+}
+
+
+/* =========================
+   FİYATLAR
+========================= */
+
+.prices {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.price {
+    position: relative;
+}
+
+.amount {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0a90df;
+    margin: 15px 0;
+}
+
+.price ul {
+    padding-left: 20px;
+    color: #526b82;
+}
+
+.price li {
+    margin-bottom: 8px;
+}
+
+
+/* =========================
+   HAKKIMIZDA
+========================= */
+
+.about-content {
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    gap: 35px;
+    align-items: center;
+}
+
+.about-content img {
+    width: 190px !important;
+    height: 190px !important;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.about-content p {
+    color: #526b82;
+    font-size: 17px;
+}
+
+
+/* =========================
+   İLETİŞİM
+========================= */
+
+.contact-card {
+    padding: 30px;
+    border-radius: 18px;
+    background: linear-gradient(135deg,#128bd8,#2bb4e8);
+    color: #ffffff;
+    margin-bottom: 25px;
+}
+
+.contact-card h3 {
+    margin-top: 0;
+    font-size: 25px;
+}
+
+.contact-card p {
+    margin: 0 0 16px;
+}
+
+.contact-card a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.form-card {
+    background: #ffffff;
+    border: 1px solid #dfebf3;
+    border-radius: 18px;
+    padding: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full {
+    grid-column: 1/-1;
+}
+
+.field label {
+    font-weight: 700;
+    color: #29445c;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    border: 1px solid #d3e1eb;
+    border-radius: 10px;
+    padding: 13px;
+    font: inherit;
+    background: #ffffff;
+    color: #19344e;
+    outline: none;
+}
+
+.field textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: #159ee5;
+    box-shadow: 0 0 0 3px rgba(21,158,229,.10);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #103b59;
+    color: #ffffff;
+    width: 100%;
+    overflow: hidden;
+    padding: 55px 0 25px;
+}
+
+footer .container {
+    width: 92%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.3fr 1.2fr;
+    gap: 35px;
+    align-items: start;
+}
+
+.footer-grid > div {
+    min-width: 0;
+}
+
+.footer-logo {
+    overflow: hidden;
+}
+
+.footer-logo img {
+    display: block;
+    width: 150px !important;
+    height: 70px !important;
+    max-width: 150px !important;
+    object-fit: contain;
+    object-position: left center;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.footer-logo h3 {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+footer h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.footer-grid a {
+    display: block;
+    color: #dcecf7;
+    margin-bottom: 9px;
+    font-size: 14px;
+}
+
+.footer-grid a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.footer-grid p {
+    color: #dcecf7;
+    font-size: 14px;
+    margin: 0 0 14px;
+    line-height: 1.55;
+}
+
+.footer-grid strong {
+    color: #ffffff;
+}
+
+.copy {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.15);
+    color: #c6d9e7;
+    font-size: 13px;
+}
+
+.wa {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    min-width: 118px;
+    height: 52px;
+    padding: 0 18px;
+    border-radius: 28px;
+    background: #1ac66d;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.2);
+    z-index: 100;
+}
+
+
+/* =========================
+   MOBİL
+========================= */
+
+@media (max-width: 900px) {
+
+    header {
+        flex-wrap: wrap;
+    }
+
+    nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 10px 0 0;
+        padding: 15px;
+        background: #ffffff;
+        border: 1px solid #e1edf5;
+        border-radius: 12px;
+    }
+
+    .menu-btn {
+        display: block;
+        margin-left: auto;
+    }
+
+    header > .btn {
+        display: none;
+    }
+
+    .grid,
+    .prices {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .steps {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .featured-project {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .container,
+    footer .container {
+        width: 92%;
+    }
+
+    .hero {
+        padding: 65px 0;
+    }
+
+    section {
+        padding: 60px 0;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .grid,
+    .prices,
+    .steps,
+    .checks,
+    .form-grid,
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .featured-project {
+        padding: 20px;
+    }
+
+    .project-media {
+        height: 220px;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .about-content img {
+        width: 160px !important;
+        height: 160px !important;
+    }
+
+    .footer-grid {
+        gap: 30px;
+    }
+
+    .footer-logo img {
+        width: 140px !important;
+        height: 65px !important;
+        max-width: 140px !important;
+    }
+
+    .contact-card,
+    .form-card {
+        padding: 22px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .hero-actions,
+    .project-actions,
+    .contact-actions {
+        flex-direction: column;
+    }
+}
+
+
+/* =========================
+   AI PROJE ASİSTANI
+========================= */
+.ai-assistant {
+    background: linear-gradient(135deg,#f7fbff,#eef8ff);
+    border: 1px solid #d9eaf5;
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 12px 40px rgba(15,60,90,.06);
+}
+.ai-intro {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 25px;
+    align-items: center;
+    margin-bottom: 22px;
+}
+.ai-badge {
+    display: inline-flex;
+    width: fit-content;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: #e4f4ff;
+    color: #087fd0;
+    font-size: 12px;
+    font-weight: 800;
+}
+.ai-chat {
+    background: #ffffff;
+    border: 1px solid #dceaf3;
+    border-radius: 18px;
+    overflow: hidden;
+}
+.ai-messages {
+    min-height: 180px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 18px;
+}
+.ai-message {
+    max-width: 88%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+}
+.ai-message.bot {
+    background: #f0f6fa;
+    color: #24445c;
+    border-bottom-left-radius: 5px;
+}
+.ai-message.user {
+    margin-left: auto;
+    background: #128bd8;
+    color: #ffffff;
+    border-bottom-right-radius: 5px;
+}
+.ai-quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 18px 15px;
+}
+.ai-quick button {
+    border: 1px solid #d2e3ed;
+    background: #ffffff;
+    color: #24506c;
+    border-radius: 999px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.ai-input-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid #e2edf3;
+}
+.ai-input {
+    width: 100%;
+    border: 1px solid #d1e0e9;
+    border-radius: 12px;
+    padding: 13px;
+    font: inherit;
+    outline: none;
+}
+.ai-input:focus {
+    border-color: #159ee5;
+    box-shadow: 0 0 0 3px rgba(21,158,229,.10);
+}
+.ai-status {
+    padding: 0 18px 15px;
+    color: #688197;
+    font-size: 13px;
+    min-height: 20px;
+}
+.ai-cta {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+}
+.why-card {
+    background: #ffffff;
+    border: 1px solid #e1edf5;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 8px 30px rgba(15,60,90,.04);
+}
+.why-icon {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+.why-card h3 {
+    margin: 5px 0 8px;
+}
+.why-card p {
+    color: #60788e;
+    margin: 0;
+}
+@media (max-width: 700px) {
+    .ai-intro,
+    .ai-input-row {
+        grid-template-columns: 1fr;
+    }
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+
+<!-- GOOGLE ADS / ANALYTICS -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18405902520"></script>
+
+<script>
+window.dataLayer = window.dataLayer || [];
+
+function gtag(){
+    dataLayer.push(arguments);
+}
+
+gtag('js', new Date());
+gtag('config', 'AW-18405902520');
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="container">
+
+<div class="brand">
+
+<img src="logo.png" alt="RA App Studio logo">
+
+<span>RA App Studio</span>
+
+</div>
+
+
+<button class="menu-btn" aria-label="Menü">
+☰
+</button>
+
+
+<nav>
+
+<a href="#anasayfa">Ana Sayfa</a>
+<a href="#hizmetler">Hizmetler</a>
+<a href="#referanslar">Referanslar</a>
+<a href="#fiyatlar">Fiyatlar</a>
+<a href="#ai-asistan">AI Asistan</a>
+<a href="hakkimizda.html">Hakkımızda</a>
+<a href="#iletisim">İletişim</a>
+
+</nav>
+
+
+<a class="btn btn-primary" href="#iletisim">
+Projenizi Anlatın
+</a>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =========================
+     ANA SAYFA
+========================= -->
+
+<section id="anasayfa" class="hero">
+
+<div class="container">
+
+<div class="kicker">
+MOBİL UYGULAMA • WEB • ÖZEL YAZILIM
+</div>
+
+
+<h1>
+
+Fikrinizi
+
+<span class="gradient">
+Gerçek Bir Dijital Ürüne Dönüştürüyoruz
+</span>
+
+</h1>
+
+
+<p>
+
+İşletmenize ve projenize özel modern, güvenli ve kullanıcı dostu mobil
+uygulamalar, web siteleri ve dijital çözümler geliştiriyoruz.
+
+</p>
+
+
+<div class="hero-actions">
+
+<a class="btn btn-primary" href="#iletisim">
+Projenizi Anlatın
+</a>
+
+
+<a class="btn btn-whatsapp"
+href="https://wa.me/905334863359"
+target="_blank"
+rel="noopener noreferrer">
+
+WhatsApp’tan İletişime Geçin
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     HİZMETLER
+========================= -->
+
+<section id="hizmetler">
+
+<div class="container">
+
+<div class="section-head">
+
+<div class="kicker">
+HİZMETLERİMİZ
+</div>
+
+<h2>
+İhtiyacınıza Özel Dijital Çözümler
+</h2>
+
+</div>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<div class="icon">📱</div>
+
+<h3>
+Mobil Uygulama Geliştirme
+</h3>
+
+<p>
+Android ve işletmeye özel mobil uygulamalar.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🌐</div>
+
+<h3>
+Web Sitesi Geliştirme
+</h3>
+
+<p>
+Modern, hızlı, mobil uyumlu kurumsal web siteleri.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">⚙️</div>
+
+<h3>
+Özel Yazılım
+</h3>
+
+<p>
+İşletmelerin ihtiyaçlarına özel yönetim ve otomasyon sistemleri.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">📊</div>
+
+<h3>
+Yönetici Panelleri
+</h3>
+
+<p>
+Kullanıcı, müşteri, personel, sipariş ve operasyon yönetimi.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🔔</div>
+
+<h3>
+Bildirim Sistemleri
+</h3>
+
+<p>
+Push bildirim ve uygulama içi bildirim sistemleri.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🛠️</div>
+
+<h3>
+Bakım ve Geliştirme
+</h3>
+
+<p>
+Hata giderme, güncelleme ve mevcut projelerin geliştirilmesi.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     NEDEN RA
+========================= -->
+
+<section class="soft">
+
+<div class="container">
+
+<div class="section-head">
+
+<div class="kicker">
+NEDEN RA APP STUDIO?
+</div>
+
+<h2>
+Projeden Yayına Kadar Yanınızdayız
+</h2>
+
+</div>
+
+
+<div class="checks">
+
+<div class="check">✓ Projeye özel geliştirme</div>
+<div class="check">✓ Modern kullanıcı arayüzü</div>
+<div class="check">✓ Mobil uyumlu tasarım</div>
+<div class="check">✓ Güvenli altyapı</div>
+<div class="check">✓ Gerçek çalışan fonksiyonlar</div>
+<div class="check">✓ Yönetici paneli çözümleri</div>
+<div class="check">✓ Yayın sonrası destek</div>
+<div class="check">✓ Güncelleme desteği</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     ÇALIŞMA SÜRECİ
+========================= -->
+
+<section>
+
+<div class="container">
+
+<div class="section-head">
+
+<div class="kicker">
+ÇALIŞMA SÜRECİ
+</div>
+
+<h2>
+4 Adımda Projenizi Hayata Geçiriyoruz
+</h2>
+
+</div>
+
+
+<div class="steps">
+
+
+<div class="card">
+
+<span class="step-no">
+01
+</span>
+
+<strong>
+Projenizi Dinliyoruz
+</strong>
+
+<p>
+İhtiyaçları ve hedefleri belirliyoruz.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<span class="step-no">
+02
+</span>
+
+<strong>
+Tasarlıyoruz
+</strong>
+
+<p>
+Modern kullanıcı deneyimi ve arayüz tasarımını hazırlıyoruz.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<span class="step-no">
+03
+</span>
+
+<strong>
+Geliştiriyoruz
+</strong>
+
+<p>
+Tüm özellikleri gerçek çalışan sistemler halinde geliştiriyoruz.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<span class="step-no">
+04
+</span>
+
+<strong>
+Test & Yayın
+</strong>
+
+<p>
+Testleri tamamlayarak projeyi yayına hazırlıyoruz.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     REFERANSLAR
+========================= -->
+
+<section id="referanslar">
+
+<div class="container">
+
+<div class="section-head">
+<div class="kicker">YAYINLANAN PROJELERİMİZ</div>
+<h2>Referanslarımız</h2>
+<p>Yayına alınmış uygulamalarımızdan bazılarını inceleyin.</p>
+</div>
+
+
+<!-- MİSLİNA KURYE -->
+<div class="featured-project">
+
+<div class="project-media">
+<img src="mislina-kurye.webp" alt="Mislina Kurye Android uygulaması">
+</div>
+
+<div class="project-content">
+
+<div class="project-badges">
+<span class="badge badge-green">Google Play'de Yayında</span>
+<span class="badge">Android</span>
+<span class="badge">Lojistik & Teslimat</span>
+</div>
+
+<h3>Mislina Kurye</h3>
+
+<p>
+İstanbul içi hızlı, güvenli ve profesyonel moto kurye teslimat platformu.
+Canlı GPS rota takibi, anlık kurye çağırma, otomatik mesafe ve ücret hesaplama
+gibi operasyon özellikleriyle geliştirildi.
+</p>
+
+<div class="project-actions">
+<a class="btn btn-play"
+href="https://play.google.com/store/apps/details?id=com.mislinakurye.app"
+target="_blank" rel="noopener noreferrer">▶ Google Play'de İncele</a>
+
+<a class="btn btn-outline"
+href="https://play.google.com/store/apps/dev?id=5658184077096984778"
+target="_blank" rel="noopener noreferrer">Geliştirici Sayfası</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- RA APP STUDIO -->
+<div class="featured-project">
+
+<div class="project-media">
+<img src="logo.png" alt="RA App Studio Android uygulaması">
+</div>
+
+<div class="project-content">
+
+<div class="project-badges">
+<span class="badge badge-green">Google Play'de Yayında</span>
+<span class="badge">Android</span>
+<span class="badge">Dijital Hizmet Platformu</span>
+</div>
+
+<h3>RA App Studio</h3>
+
+<p>
+Mobil uygulama geliştirme, proje talepleri, randevu, destek ve dijital hizmet
+süreçlerini tek platformda birleştiren modern Android uygulaması.
+</p>
+
+<div class="project-actions">
+<a class="btn btn-play"
+href="https://play.google.com/store/apps/details?id=com.aistudio.raappstudio.kzxvty"
+target="_blank" rel="noopener noreferrer">▶ Google Play'de İncele</a>
+
+<a class="btn btn-outline"
+href="https://raappstudio.online/"
+target="_blank" rel="noopener noreferrer">Web Sitesini İncele</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- BOYACI ADEM -->
+<div class="featured-project">
+
+<div class="project-media">
+<img src="boyaci-adem-logo-2-512x512.png" alt="Boyacı Adem Android uygulaması">
+</div>
+
+<div class="project-content">
+
+<div class="project-badges">
+<span class="badge badge-green">Google Play'de Yayında</span>
+<span class="badge">Android</span>
+<span class="badge">Boya & Dekorasyon</span>
+</div>
+
+<h3>Boyacı Adem</h3>
+
+<p>
+Boya, dekorasyon ve tadilat hizmetleri için teklif talebi, hızlı iletişim,
+WhatsApp desteği ve bildirim özellikleri sunan Android uygulaması.
+</p>
+
+<div class="project-actions">
+<a class="btn btn-play"
+href="https://play.google.com/store/apps/details?id=com.aistudio.duzceboya.aydemir"
+target="_blank" rel="noopener noreferrer">▶ Google Play'de İncele</a>
+
+<a class="btn btn-primary"
+href="https://ademusta.online/"
+target="_blank" rel="noopener noreferrer">Web Sitesini İncele</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- NAMAZ VAKİTLERİ PRO -->
+<div class="featured-project">
+
+<div class="project-media">
+<div style="font-size:110px;line-height:1;">🕌</div>
+</div>
+
+<div class="project-content">
+
+<div class="project-badges">
+<span class="badge badge-green">Google Play'de Yayında</span>
+<span class="badge">Android</span>
+<span class="badge">İslami Yaşam</span>
+</div>
+
+<h3>Namaz Vakitleri PRO</h3>
+
+<p>
+Namaz vakitleri ve günlük ibadet takibi için geliştirilen Android uygulaması.
+Uygulama hakkında daha fazla bilgi ve yükleme işlemi Google Play sayfasından
+yapılabilir.
+</p>
+
+<div class="project-actions">
+<a class="btn btn-play"
+href="https://play.google.com/store/apps/details?id=com.raappstudio.islamiyasam"
+target="_blank" rel="noopener noreferrer">▶ Google Play'de İncele</a>
+</div>
+
+</div>
+</div>
+
+
+<div class="grid project-types">
+
+<div class="card"><h3>Kurye ve Teslimat Sistemleri</h3></div>
+<div class="card"><h3>Şantiye Takip Sistemleri</h3></div>
+<div class="card"><h3>İşletme Yönetim Uygulamaları</h3></div>
+<div class="card"><h3>Oto Yıkama Yönetim Sistemleri</h3></div>
+<div class="card"><h3>Konum Tabanlı Uygulamalar</h3></div>
+<div class="card"><h3>Özel Müşteri Uygulamaları</h3></div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================
+     FİYATLAR
+========================= -->
+
+<section id="fiyatlar" class="soft">
+
+<div class="container">
+
+<div class="section-head">
+<div class="kicker">FİYATLAR</div>
+<h2>Projenize Uygun Çözümü Seçin</h2>
+<p>Aşağıdaki fiyatlar başlangıç fiyatlarıdır. Kesin fiyat proje kapsamı ve özelliklere göre belirlenir.</p>
+</div>
+
+<div class="prices">
+
+<div class="card price">
+<h3>Kurumsal Web Sitesi</h3>
+<div class="amount">7.500 TL’den</div>
+<ul>
+<li>Responsive tasarım</li>
+<li>Kurumsal sayfalar</li>
+<li>İletişim alanı</li>
+<li>WhatsApp entegrasyonu</li>
+<li>Temel SEO</li>
+</ul>
+<a class="btn btn-primary" href="#iletisim">Teklif Al</a>
+</div>
+
+<div class="card price">
+<h3>Mobil Uygulama</h3>
+<div class="amount">25.000 TL’den</div>
+<ul>
+<li>Profesyonel mobil arayüz</li>
+<li>Kullanıcı sistemi</li>
+<li>Veritabanı entegrasyonu</li>
+<li>Yönetim özellikleri</li>
+<li>Bildirim altyapısı</li>
+</ul>
+<a class="btn btn-primary" href="#iletisim">Teklif Al</a>
+</div>
+
+<div class="card price">
+<h3>Özel Yazılım</h3>
+<div class="amount">40.000 TL’den</div>
+<ul>
+<li>İşletmeye özel sistem</li>
+<li>Yönetici paneli</li>
+<li>Kullanıcı ve yetki sistemi</li>
+<li>Raporlama</li>
+<li>Özel iş akışları</li>
+</ul>
+<a class="btn btn-primary" href="#iletisim">Teklif Al</a>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:20px;">
+Canlı konum, ödeme altyapısı, gelişmiş bildirimler, yapay zekâ, özel API
+entegrasyonları ve diğer ileri özellikler ayrıca fiyatlandırılabilir.
+</div>
+
+</div>
+</section>
+
+
+<!-- =========================
+     HAKKIMIZDA
+========================= -->
+
+<section id="hakkimizda">
+
+<div class="container">
+
+<div class="section-head">
+<div class="kicker">HAKKIMIZDA</div>
+<h2>İşletmeniz İçin Sadece Bir Uygulama Değil, Çalışan Bir Sistem.</h2>
+</div>
+
+<div class="about-content">
+
+<div>
+<img src="logo.png" alt="RA App Studio">
+</div>
+
+<div>
+<p>
+RA App Studio olarak mobil uygulama, web sitesi ve işletmelere özel yazılım
+çözümleri geliştiriyoruz. Amacımız yalnızca güzel görünen projeler oluşturmak
+değil; işletmelerin günlük operasyonlarında gerçekten kullanılabilecek hızlı,
+güvenilir ve sürdürülebilir dijital sistemler geliştirmektir.
+</p>
+
+<a class="btn btn-primary" href="hakkimizda.html">Hakkımızda Sayfasını İncele</a>
+</div>
+
+</div>
+</div>
+</section>
+
+
+
+<!-- =========================
+     AI PROJE ASİSTANI
+========================= -->
+<section id="ai-asistan" class="soft">
+<div class="container">
+
+<div class="section-head">
+<div class="kicker">YAPAY ZEKA DESTEKLİ</div>
+<h2>AI Proje Asistanı</h2>
+<p>Projenizi birkaç cümleyle anlatın. Asistan, ihtiyacınızı anlayıp hangi özelliklere ve sistemlere ihtiyaç duyabileceğinizi açıklasın.</p>
+</div>
+
+<div class="ai-assistant">
+
+<div class="ai-intro">
+<div>
+<span class="ai-badge">● GERÇEK AI ASİSTANI</span>
+<h3 style="font-size:28px;margin:12px 0 8px;">Projenizi anlatın, birlikte şekillendirelim.</h3>
+<p style="margin:0;color:#60788e;">Mobil uygulama, web sitesi, yönetim paneli veya özel yazılım fikrinizi yazabilirsiniz.</p>
+</div>
+<div style="font-size:64px;">🤖</div>
+</div>
+
+<div class="ai-chat">
+<div id="aiMessages" class="ai-messages">
+<div class="ai-message bot">Merhaba! 👋 Ben RA App Studio Proje Asistanı. Projenizi kısaca anlatın; ihtiyacınız olabilecek özellikleri ve sistemi birlikte çıkaralım.</div>
+</div>
+
+<div class="ai-quick">
+<button type="button" data-ai="Bir mobil uygulama yaptırmak istiyorum. Nereden başlamalıyım?">📱 Mobil uygulama</button>
+<button type="button" data-ai="Bir işletme için web sitesi istiyorum. Neler gerekli?">🌐 Web sitesi</button>
+<button type="button" data-ai="Yönetim paneli ve kullanıcı sistemi istiyorum.">📊 Yönetim paneli</button>
+</div>
+
+<div id="aiStatus" class="ai-status"></div>
+
+<div class="ai-input-row">
+<input id="aiInput" class="ai-input" type="text" maxlength="2000" placeholder="Örn: Kurye uygulaması yapmak istiyorum...">
+<button id="aiSend" class="btn btn-primary" type="button">Gönder</button>
+</div>
+</div>
+
+<div class="ai-cta">
+<a class="btn btn-whatsapp" href="https://wa.me/905334863359?text=Merhaba%20RA%20App%20Studio%2C%20AI%20Proje%20Asistan%C4%B1%20%C3%BCzerinden%20projem%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener noreferrer">WhatsApp'tan Devam Et</a>
+<a class="btn btn-outline" href="#iletisim">İletişim Bilgileri</a>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================
+     NEDEN RA APP STUDIO
+========================= -->
+<section id="neden-ra">
+<div class="container">
+
+<div class="section-head">
+<div class="kicker">NEDEN RA APP STUDIO?</div>
+<h2>Projeden Yayına Kadar Yanınızdayız</h2>
+<p>İhtiyacınıza göre tasarım, geliştirme ve dijital çözüm süreçlerini birlikte ilerletiyoruz.</p>
+</div>
+
+<div class="why-grid">
+
+<div class="why-card">
+<div class="why-icon">🚀</div>
+<h3>Modern Teknoloji</h3>
+<p>Projelerin ihtiyacına göre güncel ve sürdürülebilir teknolojiler kullanıyoruz.</p>
+</div>
+
+<div class="why-card">
+<div class="why-icon">📱</div>
+<h3>Mobil Uyumlu</h3>
+<p>Telefon, tablet ve farklı ekran boyutlarında kullanılabilir deneyimler tasarlıyoruz.</p>
+</div>
+
+<div class="why-card">
+<div class="why-icon">🔐</div>
+<h3>Güvenli Altyapı</h3>
+<p>Kullanıcı verileri ve uygulama altyapısında güvenliği ön planda tutuyoruz.</p>
+</div>
+
+<div class="why-card">
+<div class="why-icon">🛠️</div>
+<h3>Proje Sonrası Destek</h3>
+<p>Yayın sonrasında güncelleme, bakım ve geliştirme ihtiyaçlarında destek sağlıyoruz.</p>
+</div>
+
+<div class="why-card">
+<div class="why-icon">💡</div>
+<h3>Projeye Özel Çözüm</h3>
+<p>İhtiyacınızı dinleyip hazır kalıplar yerine projeye uygun çözüm planlıyoruz.</p>
+</div>
+
+<div class="why-card">
+<div class="why-icon">⚡</div>
+<h3>Hızlı ve Kullanıcı Dostu</h3>
+<p>Performans, kullanım kolaylığı ve anlaşılır arayüzü birlikte gözetiyoruz.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- =========================
+     İLETİŞİM / PROJE TALEBİ
+========================= -->
+
+<section id="iletisim" class="soft">
+
+<div class="container">
+
+<div id="talep" class="section-head">
+<div class="kicker">İLETİŞİM</div>
+<h2>Bizimle İletişime Geçin</h2>
+<p>Projeniz hakkında WhatsApp veya e-posta üzerinden doğrudan bizimle iletişime geçebilirsiniz.</p>
+</div>
+
+<div class="contact-card">
+<h3>İletişim</h3>
+<p>Projeniz hakkında doğrudan bizimle iletişime geçebilirsiniz.</p>
+<p><strong>Telefon / WhatsApp:</strong> <a href="tel:+905334863359">+90 533 486 33 59</a></p>
+<p><strong>E-posta:</strong> <a href="mailto:info@raappstudio.online">info@raappstudio.online</a></p>
+
+<div class="contact-actions">
+<a class="btn btn-whatsapp"
+href="https://wa.me/905334863359"
+target="_blank" rel="noopener noreferrer">WhatsApp’tan Yazın</a>
+<a class="btn btn-outline contact-email" href="mailto:info@raappstudio.online">E-posta Gönder</a>
+<a class="btn btn-outline contact-payment" href="odeme.html">Güvenli Ödeme</a>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+<div class="container">
+
+<div class="footer-grid">
+
+<div class="footer-logo">
+<img src="logo.png" alt="RA App Studio">
+<h3>RA App Studio</h3>
+<p>Mobil uygulama, web sitesi ve özel yazılım çözümleri.</p>
+</div>
+
+<div>
+<h3>Menü</h3>
+<a href="#hizmetler">Hizmetler</a>
+<a href="#referanslar">Referanslar</a>
+<a href="#fiyatlar">Fiyatlar</a>
+<a href="hakkimizda.html">Hakkımızda</a>
+<a href="#iletisim">İletişim</a>
+<a href="odeme.html">Güvenli Ödeme</a>
+</div>
+
+<div>
+<h3>Yasal Bilgilendirmeler</h3>
+<a href="gizlilik-politikasi.html">Gizlilik Politikası</a>
+<a href="teslimat-ve-iade.html">Teslimat ve İade</a>
+<a href="mesafeli-satis-sozlesmesi.html">Mesafeli Satış Sözleşmesi</a>
+<a href="hakkimizda.html">Hakkımızda</a>
+</div>
+
+<div>
+<h3>İletişim</h3>
+<p><strong>Satıcı:</strong> Recep Aydemir – RA App Studio</p>
+<p><strong>Vergi Dairesi:</strong> Düzce Vergi Dairesi Müdürlüğü</p>
+<p><strong>VKN:</strong> 1100509332</p>
+<p><strong>Faaliyet Kodu:</strong> 621000 – Bilgisayar Programlama</p>
+<p><strong>Telefon:</strong> +90 533 486 33 59</p>
+<p><strong>E-posta:</strong> info@raappstudio.online</p>
+</div>
+
+</div>
+
+<div class="copy">
+© 2026 RA App Studio. Tüm hakları saklıdır.
+</div>
+
+</div>
+
+</footer>
+
+
+<a class="wa"
+href="https://wa.me/905334863359"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="WhatsApp">WhatsApp</a>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const menuBtn = document.querySelector(".menu-btn");
+    const nav = document.querySelector("nav");
+
+    if (menuBtn && nav) {
+        menuBtn.addEventListener("click", function () {
+            nav.style.display = nav.style.display === "flex" ? "none" : "flex";
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                if (window.innerWidth <= 900) {
+                    nav.style.display = "none";
+                }
+            });
+        });
+    }
+});
+</script>
+
+
+<script>
+(function () {
+    const messages = document.getElementById('aiMessages');
+    const input = document.getElementById('aiInput');
+    const send = document.getElementById('aiSend');
+    const status = document.getElementById('aiStatus');
+
+    if (!messages || !input || !send) return;
+
+    function addMessage(text, type) {
+        const el = document.createElement('div');
+        el.className = 'ai-message ' + type;
+        el.textContent = text;
+        messages.appendChild(el);
+        messages.scrollTop = messages.scrollHeight;
+        return el;
+    }
+
+    async function askAI(text) {
+        text = (text || '').trim();
+        if (!text) return;
+
+        addMessage(text, 'user');
+        input.value = '';
+        send.disabled = true;
+        status.textContent = 'AI Proje Asistanı düşünüyor...';
+
+        try {
+            const endpoints = [
+                '/ai-proje-asistani.php',
+                '/api/ai-proje-asistani.php',
+                'https://ais-dev-btnlmfxdy4apa5tjbf7bxm-737359961090.europe-west2.run.app/api/ai-proje-asistani.php'
+            ];
+            let data = null;
+            let lastErr = null;
+
+            for (const ep of endpoints) {
+                try {
+                    const response = await fetch(ep, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({message: text})
+                    });
+                    if (response.ok) {
+                        const resJson = await response.json();
+                        if (resJson && (resJson.ok || resJson.success) && resJson.reply) {
+                            data = resJson;
+                            break;
+                        } else if (resJson && resJson.error) {
+                            lastErr = new Error(resJson.error);
+                        }
+                    }
+                } catch (fetchErr) {
+                    lastErr = fetchErr;
+                }
+            }
+
+            if (!data || !data.reply) {
+                throw lastErr || new Error('AI yanıt veremedi.');
+            }
+
+            addMessage(data.reply, 'bot');
+            status.textContent = '';
+        } catch (error) {
+            addMessage('Şu anda AI bağlantısında bir sorun oluştu. Lütfen biraz sonra tekrar deneyin veya WhatsApp üzerinden bize ulaşın.', 'bot');
+            status.textContent = 'Bağlantı hatası.';
+        } finally {
+            send.disabled = false;
+            input.focus();
+        }
+    }
+
+    send.addEventListener('click', function () {
+        askAI(input.value);
+    });
+
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            askAI(input.value);
+        }
+    });
+
+    document.querySelectorAll('[data-ai]').forEach(function (button) {
+        button.addEventListener('click', function () {
+            input.value = button.getAttribute('data-ai');
+            askAI(input.value);
+        });
+    });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+name: Build Mesai Takip iOS (Xcode / IPA)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'iosApp/**'
+
+jobs:
+  build-ios:
+    name: Build iOS App on macOS
+    runs-on: macos-14
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode Project
+        working-directory: iosApp
+        run: xcodegen generate
+
+      - name: Build iOS Archive (Unsigned for Verification / Simulator or Signed IPA)
+        working-directory: iosApp
+        run: |
+          xcodebuild clean build \
+            -project MesaiTakip.xcodeproj \
+            -scheme MesaiTakip \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO

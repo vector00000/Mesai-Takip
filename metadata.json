@@ -1,0 +1,6 @@
+{
+  "name": "Mesai Takip",
+  "description": "Fazla mesai süresini otomatik takip eden ve mesai ücretini hesaplayan sade ve modern mesai uygulaması.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
