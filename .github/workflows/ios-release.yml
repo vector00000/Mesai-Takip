@@ -63,11 +63,11 @@ jobs:
           tag_name: v31.0
           name: "Mesai Takip v31.0 — Doğrudan İndirme (Android APK & iOS Kurulum Paketi)"
           body: |
-            ## 📲 Mesai Takip v31.0 — Doğrudan İndirme Linkleri
-            Aşağıdaki linklere tıklayarak uygulamayı doğrudan telefonunuza indirebilirsiniz:
-            - **🤖 Android APK İndir:** Aşağıdaki **Assets** bölümünden `Mesai-Takip-Android-v31.apk` dosyasına tıklayın.
-            - **🍎 iPhone / iPad (iOS) Kurulum Paketi:** Aşağıdaki **Assets** bölümünden `Mesai-Takip-iOS.mobileconfig` (veya `MesaiTakip-iOS-v31.ipa`) dosyasına tıklayın.
-            - **🌐 Web / iOS İndirme Merkezi:** `Mesai-Takip-iOS-AppStore-Gorselleri.zip`
+            ## 📲 Mesai Takip v31.0 — Tek Tıkla Telefonunuza İndirin
+            Aşağıdaki **Assets** bölümünden telefonunuza uygun dosyaya tıklayarak doğrudan indirebilirsiniz:
+            - **🤖 Android Telefonlar İçin APK:** `Mesai-Takip-Android-v31.apk`
+            - **🍎 iPhone / iPad (iOS) Kurulum Paketi:** `Mesai-Takip-iOS.mobileconfig` *(İndirip Ayarlar -> Profil İndirildi -> Yükle diyerek ana ekranınıza kurun)*
+            - **📦 iOS .IPA Paketi:** `MesaiTakip-iOS-v31.ipa`
           files: |
             Mesai-Takip-Android-v31.apk
             Mesai-Takip-iOS.mobileconfig
