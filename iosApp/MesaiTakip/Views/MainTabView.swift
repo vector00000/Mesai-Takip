@@ -80,7 +80,7 @@ struct IosHomeView: View {
                     HStack {
                         Image(systemName: store.activeOvertime.isActive ? "timer" : "play.circle.fill")
                             .font(.title2)
-                            .foregroundStyle(.blue)
+                            .foregroundColor(.blue)
                         Text(store.activeOvertime.isActive ? "Devam Eden Mesai Sayacı" : "Tek Dokunuşla Mesai Sayacı")
                             .font(.headline)
                         Spacer()
@@ -89,7 +89,7 @@ struct IosHomeView: View {
                     if store.activeOvertime.isActive {
                         Text("Başlangıç: \(store.activeOvertime.startTimeStr) • Saatlik: ₺\(String(format: "%.0f", store.activeOvertime.hourlyRate))")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
 
                         Stepper(
                             "Mola Süresi: \(store.activeOvertime.breakMinutes) dk",
@@ -153,14 +153,14 @@ struct IosHomeView: View {
                         Text("Mesai Kazancı:")
                         Spacer()
                         Text("+₺\(String(format: "%.2f", summary.overtimeEarningsEntitlement))")
-                            .foregroundStyle(.green).bold()
+                            .foregroundColor(.green).bold()
                     }
                     Divider()
                     HStack {
                         Text("Net Ödenecek (Avans Düşülmüş):")
                         Spacer()
                         Text("₺\(String(format: "%.2f", summary.netRemainingSalaryAfterAdvance))")
-                            .font(.title3).bold().foregroundStyle(.blue)
+                            .font(.title3).bold().foregroundColor(.blue)
                     }
                 }
                 .padding()
@@ -174,7 +174,7 @@ struct IosHomeView: View {
                     if store.records.isEmpty {
                         Text("Henüz mesai kaydı bulunmuyor.")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
                     } else {
                         ForEach(store.records.prefix(15)) { rec in
                             HStack {
@@ -182,11 +182,11 @@ struct IosHomeView: View {
                                     Text("\(rec.date) • \(rec.startTimeStr) - \(rec.endTimeStr)")
                                         .font(.subheadline).bold()
                                     Text("Net: \(rec.durationMinutes) dk (Mola: \(rec.breakMinutes) dk)")
-                                        .font(.caption).foregroundStyle(.secondary)
+                                        .font(.caption).foregroundColor(.secondary)
                                 }
                                 Spacer()
                                 Text("₺\(String(format: "%.2f", rec.totalAmount))")
-                                    .font(.subheadline).bold().foregroundStyle(.blue)
+                                    .font(.subheadline).bold().foregroundColor(.blue)
                             }
                             .padding(12)
                             .background(Color(.systemBackground))
@@ -199,7 +199,7 @@ struct IosHomeView: View {
         }
         .navigationTitle("Mesai Takip")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: onOpenNotifications) {
                     HStack(spacing: 4) {
                         Image(systemName: "bell.badge.fill")
@@ -322,9 +322,9 @@ struct IosBudgetAndArchiveView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(report.reportTitle).font(.subheadline).bold()
                         Text("Oluşturulma: \(report.createdDateStr) • Net Ödenecek: ₺\(String(format: "%.2f", report.netPayableTotal))")
-                            .font(.caption).foregroundStyle(.secondary)
+                            .font(.caption).foregroundColor(.secondary)
                         Text("Dondurulmuş Saatlik Ücretler — H.İçi: ₺\(Int(report.snapshotWeekdayRate)), H.Sonu: ₺\(Int(report.snapshotWeekendRate))")
-                            .font(.caption2).foregroundStyle(.secondary)
+                            .font(.caption2).foregroundColor(.secondary)
                     }
                 }
             }
@@ -343,11 +343,11 @@ struct IosTariffAndAuditView: View {
             Section("Akıllı Eksik Kayıt Kontrolü (\(warnings.count) Uyarı)") {
                 if warnings.isEmpty {
                     Text("Tüm mesai kayıtlarınız eksiksiz ve tutarlı görünüyor.")
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 } else {
                     ForEach(warnings) { w in
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(w.title).font(.subheadline).bold().foregroundStyle(.orange)
+                            Text(w.title).font(.subheadline).bold().foregroundColor(.orange)
                             Text(w.description).font(.caption)
                             Button("Uyarıyı Kapat") {
                                 store.dismissWarning(w.warningKey)
@@ -382,14 +382,14 @@ struct IosAchievementsView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
                             Image(systemName: badge.isUnlocked ? "checkmark.seal.fill" : "lock.circle")
-                                .foregroundStyle(badge.isUnlocked ? .green : .secondary)
+                                .foregroundColor(badge.isUnlocked ? .green : .secondary)
                             Text(badge.title).font(.subheadline).bold()
                             Spacer()
                             Text("%\(badge.progressPercent)").font(.caption).bold()
                         }
                         Text(badge.conditionDescription)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
                         ProgressView(value: Double(badge.currentProgress), total: Double(max(1, badge.targetProgress)))
                     }
                     .padding(.vertical, 4)
@@ -409,7 +409,7 @@ struct IosNotificationCenterView: View {
         List {
             if store.notifications.isEmpty {
                 Text("Henüz bildirim kaydı bulunmuyor.")
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             } else {
                 ForEach(store.notifications) { item in
                     Button {
@@ -426,14 +426,14 @@ struct IosNotificationCenterView: View {
                                     .background(Color.blue.opacity(0.15))
                                     .clipShape(Capsule())
                                 Spacer()
-                                Text(item.dateTimeStr).font(.caption2).foregroundStyle(.secondary)
+                                Text(item.dateTimeStr).font(.caption2).foregroundColor(.secondary)
                             }
                             Text(item.title)
                                 .font(.subheadline)
                                 .fontWeight(item.isRead ? .regular : .bold)
                             Text(item.message)
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundColor(.secondary)
                         }
                     }
                 }
@@ -441,7 +441,7 @@ struct IosNotificationCenterView: View {
         }
         .navigationTitle("Bildirim Merkezi")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Tümünü Okundu İşaretle") {
                     for idx in store.notifications.indices {
                         store.notifications[idx].isRead = true
@@ -512,9 +512,25 @@ struct IosSettingsView: View {
                 Toggle("Başarı Bildirimleri", isOn: $store.settings.reminderAchievementEnabled)
             }
 
+            Section("Firebase Bulut Bağlantısı (GoogleService-Info.plist)") {
+                LabeledContent("Firebase Proje ID", value: store.firebaseConfig.projectId)
+                LabeledContent("Google App ID", value: store.firebaseConfig.googleAppId)
+                LabeledContent("Depolama Kovası", value: store.firebaseConfig.storageBucket)
+                LabeledContent("Durum", value: store.firebaseSyncMessage)
+                Button {
+                    store.syncToFirebaseCloud()
+                } label: {
+                    Label(
+                        store.isSyncingFirebase ? "Yedekleniyor..." : "Firebase Buluta Şimdi Yedekle",
+                        systemImage: "icloud.and.arrow.up.fill"
+                    )
+                }
+                .disabled(store.isSyncingFirebase)
+            }
+
             Section("Uygulama Bilgisi") {
                 LabeledContent("Sürüm", value: "Mesai Takip iOS v31.0 (31)")
-                LabeledContent("Paket / Bundle ID", value: "com.aistudio.mesaitakip.kvnrpd")
+                LabeledContent("Paket / Bundle ID", value: store.firebaseConfig.bundleId)
             }
         }
         .navigationTitle("Ayarlar")

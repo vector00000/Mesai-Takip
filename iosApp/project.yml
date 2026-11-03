@@ -1,5 +1,6 @@
 name: MesaiTakip
 options:
+  xcodeVersion: "15.0"
   bundleIdPrefix: com.aistudio.mesaitakip
   deploymentTarget:
     iOS: "16.0"
@@ -10,12 +11,16 @@ settings:
     MARKETING_VERSION: "31.0"
     CURRENT_PROJECT_VERSION: "31"
     SWIFT_VERSION: "5.9"
+    GENERATE_INFOPLIST_FILE: NO
 targets:
   MesaiTakip:
     type: application
     platform: iOS
+    deploymentTarget: "16.0"
     sources:
       - path: MesaiTakip
+        excludes:
+          - Info.plist
     info:
       path: MesaiTakip/Info.plist
     settings:
@@ -23,3 +28,4 @@ targets:
         INFOPLIST_FILE: MesaiTakip/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.aistudio.mesaitakip.kvnrpd
         TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon

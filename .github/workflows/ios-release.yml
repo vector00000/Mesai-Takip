@@ -6,10 +6,11 @@ on:
     branches: [ main, master ]
     paths:
       - 'iosApp/**'
+      - '.github/workflows/ios-release.yml'
 
 jobs:
   build-ios:
-    name: Build iOS App on macOS
+    name: Build iOS App & Package IPA on macOS
     runs-on: macos-14
     steps:
       - name: Checkout Repository
@@ -18,15 +19,41 @@ jobs:
       - name: Install XcodeGen
         run: brew install xcodegen
 
-      - name: Generate Xcode Project
+      - name: Generate Xcode 15 Compatible Project
         working-directory: iosApp
-        run: xcodegen generate
+        run: |
+          xcodegen generate
+          # Ensure pbxproj objectVersion is compatible with Xcode 15.4 even if newer XcodeGen defaults to 77
+          sed -i '' 's/objectVersion = 77;/objectVersion = 56;/g' MesaiTakip.xcodeproj/project.pbxproj
+          sed -i '' 's/objectVersion = 70;/objectVersion = 56;/g' MesaiTakip.xcodeproj/project.pbxproj
 
-      - name: Build iOS Archive (Unsigned for Verification / Simulator or Signed IPA)
+      - name: Build iOS Release App Bundle
         working-directory: iosApp
         run: |
           xcodebuild clean build \
             -project MesaiTakip.xcodeproj \
             -scheme MesaiTakip \
-            -destination 'generic/platform=iOS' \
-            CODE_SIGNING_ALLOWED=NO
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM=""
+
+      - name: Package IPA File (MesaiTakip-iOS-v31.ipa)
+        working-directory: iosApp
+        run: |
+          mkdir -p build/ipa/Payload
+          cp -R build/Build/Products/Release-iphoneos/MesaiTakip.app build/ipa/Payload/
+          cd build/ipa
+          zip -r -q ../../MesaiTakip-iOS-v31.ipa Payload
+          ls -lh ../../MesaiTakip-iOS-v31.ipa
+
+      - name: Upload MesaiTakip iOS IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MesaiTakip-iOS-v31-IPA
+          path: iosApp/MesaiTakip-iOS-v31.ipa
+          if-no-files-found: error
+          retention-days: 30

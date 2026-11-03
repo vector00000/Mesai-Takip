@@ -1,4 +1,6 @@
 import Foundation
+import Combine
+import SwiftUI
 import UserNotifications
 
 final class MesaiStore: ObservableObject {
@@ -30,8 +32,20 @@ final class MesaiStore: ObservableObject {
         didSet { saveCodable(notifications, key: "mesai_notifications") }
     }
     @Published var selectedYearMonth: String = MesaiStore.currentYearMonthString()
+    @Published var firebaseSyncMessage: String = "Hazır (mesai-takip-fc13a)"
+    @Published var isSyncingFirebase: Bool = false
+
+    let firebaseConfig: FirebasePlistConfig = FirebaseIosClient.shared.config
+    private let deviceUserId: String
 
     init() {
+        if let existingId = UserDefaults.standard.string(forKey: "mesai_ios_device_uid") {
+            self.deviceUserId = existingId
+        } else {
+            let newId = "ios_" + UUID().uuidString.lowercased()
+            UserDefaults.standard.set(newId, forKey: "mesai_ios_device_uid")
+            self.deviceUserId = newId
+        }
         settings = loadCodable(AppSettings.self, key: "mesai_settings") ?? AppSettings()
         records = loadCodable([OvertimeRecord].self, key: "mesai_records") ?? []
         activeOvertime = loadCodable(ActiveOvertime.self, key: "mesai_active") ?? ActiveOvertime()
@@ -42,6 +56,54 @@ final class MesaiStore: ObservableObject {
 
         evaluateAutomaticReminders()
         evaluateAchievementsAndNotifications()
+    }
+
+    func syncToFirebaseCloud() {
+        guard !isSyncingFirebase else { return }
+        isSyncingFirebase = true
+        firebaseSyncMessage = "Firebase bulut ile senkronize ediliyor..."
+
+        struct CloudSnapshot: Encodable {
+            let settings: AppSettings
+            let records: [OvertimeRecord]
+            let budgetTransactions: [BudgetTransaction]
+            let tariffRules: [RateTariffRule]
+            let archivedReports: [PayrollArchiveReport]
+        }
+
+        let snapshot = CloudSnapshot(
+            settings: settings,
+            records: records,
+            budgetTransactions: budgetTransactions,
+            tariffRules: tariffRules,
+            archivedReports: archivedReports
+        )
+        let payloadJson = (try? String(data: JSONEncoder().encode(snapshot), encoding: .utf8)) ?? "{}"
+
+        FirebaseIosClient.shared.syncBackupToFirestore(
+            deviceUserId: deviceUserId,
+            recordsCount: records.count,
+            budgetCount: budgetTransactions.count,
+            reportsCount: archivedReports.count,
+            payloadJson: payloadJson
+        ) { [weak self] result in
+            guard let self = self else { return }
+            self.isSyncingFirebase = false
+            switch result {
+            case .success:
+                let stamp = Self.currentDateTimeString()
+                self.firebaseSyncMessage = "Son yedekleme başarılı: \(stamp)"
+                self.recordNotification(
+                    eventKey: "FIREBASE_SYNC_\(stamp)",
+                    type: .systemBackup,
+                    title: "Firebase Bulut Yedekleme Tamamlandı",
+                    message: "\(self.records.count) mesai kaydı ve \(self.archivedReports.count) rapor mesai-takip-fc13a projesine yedeklendi.",
+                    targetTabIndex: 4
+                )
+            case .failure(let err):
+                self.firebaseSyncMessage = "Yedekleme uyarısı: \(err.localizedDescription)"
+            }
+        }
     }
 
     static func currentYearMonthString() -> String {
