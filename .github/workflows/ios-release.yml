@@ -10,7 +10,34 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "ios-build-and-pages"
+  cancel-in-progress: false
+
 jobs:
+  deploy-pages:
+    name: Publish Web & Download Page (GitHub Pages)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload iOS Web & Download Portal
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'iosWeb'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
   build-ios-and-release:
     name: Build iOS IPA & Publish Downloadable Release (APK + iOS)
     runs-on: macos-14

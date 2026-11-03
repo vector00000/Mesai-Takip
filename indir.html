@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mesai Takip — Resmi İndirme Merkezi (iOS & Android APK)</title>
+  <style>
+    :root {
+      --primary: #155EEF;
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --green: #16A34A;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px 16px;
+    }
+    .container { max-width: 540px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(135deg, #0F4CD6, #155EEF);
+      color: #fff;
+      border-radius: 24px;
+      padding: 28px 22px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(21, 94, 239, 0.18);
+    }
+    .hero-icon {
+      width: 84px;
+      height: 84px;
+      border-radius: 20px;
+      background: #fff;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+    }
+    .hero h1 { margin: 0 0 6px; font-size: 24px; font-weight: 800; }
+    .hero p { margin: 0; font-size: 14px; opacity: 0.92; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card h2 { margin: 0 0 8px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+    .card p { margin: 0 0 14px; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-ios { background: #0F172A; color: #fff; }
+    .btn-ios-alt { background: #EEF4FF; color: var(--primary); }
+    .btn-apk { background: var(--green); color: #fff; }
+    .btn-play { background: var(--primary); color: #fff; }
+    .steps {
+      background: #F1F5F9;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 12.5px;
+      color: #334155;
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-icon">⏱️</div>
+      <h1>Mesai Takip v31.0</h1>
+      <p>iPhone (iOS) ve Android (APK) Doğrudan Kurulum Merkezi</p>
+    </div>
+
+    <!-- iOS KURULUM KARTI -->
+    <div class="card">
+      <h2>🍎 iPhone / iPad (iOS) İçin İndir</h2>
+      <p>App Store beklemeye gerek kalmadan iPhone veya iPad cihazınıza doğrudan kurulum paketiyle veya tek dokunuşla kurun:</p>
+      <a class="btn btn-ios" href="./Mesai-Takip-iOS.mobileconfig" download="Mesai-Takip-iOS.mobileconfig">
+        📥 iOS Kurulum Paketi İndir (.mobileconfig)
+      </a>
+      <a class="btn btn-ios-alt" href="./index.html">
+        🚀 iOS Uygulamayı Hemen Aç (Ana Ekrana Ekle)
+      </a>
+      <div class="steps">
+        <strong>iPhone Kurulum Adımı (10 Saniye):</strong><br/>
+        1. <strong>"iOS Kurulum Paketi İndir"</strong> butonuna basın ve çıkan uyarıda <strong>"İzin Ver"</strong> deyin.<br/>
+        2. iPhone <strong>Ayarlar -> Profil İndirildi</strong> menüsüne tıklayıp sağ üstten <strong>Yükle</strong> deyin; uygulama ana ekranınıza eklenecektir!<br/>
+        <em>(Alternatif: "iOS Uygulamayı Hemen Aç" butonuna basıp Safari'de Paylaş -> <strong>Ana Ekrana Ekle</strong> diyebilirsiniz.)</em>
+      </div>
+    </div>
+
+    <!-- ANDROID APK KURULUM KARTI -->
+    <div class="card">
+      <h2>🤖 Android Telefonlar İçin APK İndir</h2>
+      <p>Android cihazınıza doğrudan APK dosyasını indirip kurabilir veya resmi Google Play mağazasından yükleyebilirsiniz:</p>
+      <a class="btn btn-apk" href="https://raw.githubusercontent.com/vector00000/Mesai-Takip/main/app-release.apk" download="Mesai-Takip-v31.apk">
+        📲 Doğrudan Android APK İndir (v31.0)
+      </a>
+      <a class="btn btn-play" href="https://play.google.com/store/apps/details?id=com.aistudio.mesaitakip.kvnrpd">
+        ▶️ Google Play Store'dan İndir
+      </a>
+    </div>
+  </div>
+</body>
+</html>
