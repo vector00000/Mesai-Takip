@@ -1,16 +1,18 @@
-name: Build Mesai Takip iOS (Xcode / IPA)
+name: Build Mesai Takip iOS & Publish Direct Download Links (APK + iOS)
 
 on:
   workflow_dispatch:
   push:
     branches: [ main, master ]
-    paths:
-      - 'iosApp/**'
-      - '.github/workflows/ios-release.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-  build-ios:
-    name: Build iOS App & Package IPA on macOS
+  build-ios-and-release:
+    name: Build iOS IPA & Publish Downloadable Release (APK + iOS)
     runs-on: macos-14
     steps:
       - name: Checkout Repository
@@ -23,7 +25,6 @@ jobs:
         working-directory: iosApp
         run: |
           xcodegen generate
-          # Ensure pbxproj objectVersion is compatible with Xcode 15.4 even if newer XcodeGen defaults to 77
           sed -i '' 's/objectVersion = 77;/objectVersion = 56;/g' MesaiTakip.xcodeproj/project.pbxproj
           sed -i '' 's/objectVersion = 70;/objectVersion = 56;/g' MesaiTakip.xcodeproj/project.pbxproj
 
@@ -50,10 +51,39 @@ jobs:
           zip -r -q ../../MesaiTakip-iOS-v31.ipa Payload
           ls -lh ../../MesaiTakip-iOS-v31.ipa
 
-      - name: Upload MesaiTakip iOS IPA Artifact
+      - name: Prepare Android APK & iOS Installer Files for Direct Download
+        run: |
+          cp app-release.apk Mesai-Takip-Android-v31.apk
+          cp iosWeb/Mesai-Takip-iOS.mobileconfig Mesai-Takip-iOS.mobileconfig
+          cp iosApp/MesaiTakip-iOS-v31.ipa MesaiTakip-iOS-v31.ipa
+
+      - name: Publish Direct Download Links on GitHub Releases (v31.0)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v31.0
+          name: "Mesai Takip v31.0 — Doğrudan İndirme (Android APK & iOS Kurulum Paketi)"
+          body: |
+            ## 📲 Mesai Takip v31.0 — Doğrudan İndirme Linkleri
+            Aşağıdaki linklere tıklayarak uygulamayı doğrudan telefonunuza indirebilirsiniz:
+            - **🤖 Android APK İndir:** Aşağıdaki **Assets** bölümünden `Mesai-Takip-Android-v31.apk` dosyasına tıklayın.
+            - **🍎 iPhone / iPad (iOS) Kurulum Paketi:** Aşağıdaki **Assets** bölümünden `Mesai-Takip-iOS.mobileconfig` (veya `MesaiTakip-iOS-v31.ipa`) dosyasına tıklayın.
+            - **🌐 Web / iOS İndirme Merkezi:** `Mesai-Takip-iOS-AppStore-Gorselleri.zip`
+          files: |
+            Mesai-Takip-Android-v31.apk
+            Mesai-Takip-iOS.mobileconfig
+            MesaiTakip-iOS-v31.ipa
+            MesaiTakip-iOS-AppStore-Gorselleri.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload MesaiTakip iOS IPA & APK Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: MesaiTakip-iOS-v31-IPA
-          path: iosApp/MesaiTakip-iOS-v31.ipa
+          name: MesaiTakip-Indirme-Paketi-APK-ve-iOS
+          path: |
+            Mesai-Takip-Android-v31.apk
+            Mesai-Takip-iOS.mobileconfig
+            MesaiTakip-iOS-v31.ipa
+            MesaiTakip-iOS-AppStore-Gorselleri.zip
           if-no-files-found: error
           retention-days: 30

@@ -1,0 +1,63 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Automatically create certificate & provisioning profile, sign IPA, and upload to App Store Connect"
+  lane :release_to_appstore do
+    setup_ci
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_PRIVATE_KEY"],
+      is_key_content_base64: false,
+      in_house: false
+    )
+
+    cert(
+      api_key: api_key,
+      development: false
+    )
+
+    sigh(
+      api_key: api_key,
+      app_identifier: "com.aistudio.mesaitakip.kvnrpd",
+      adhoc: false,
+      development: false,
+      force: true
+    )
+
+    team_id = Actions.lane_context[SharedValues::SIGH_PROFILE_TEAM_ID] || ENV["IGH_TEAM_ID"]
+    profile_name = Actions.lane_context[SharedValues::SIGH_NAME]
+    profile_uuid = Actions.lane_context[SharedValues::SIGH_UUID]
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "MesaiTakip.xcodeproj",
+      team_id: team_id,
+      bundle_identifier: "com.aistudio.mesaitakip.kvnrpd",
+      code_sign_identity: "Apple Distribution",
+      profile_name: profile_name,
+      profile_uuid: profile_uuid
+    )
+
+    build_app(
+      project: "MesaiTakip.xcodeproj",
+      scheme: "MesaiTakip",
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "./build",
+      output_name: "MesaiTakip-AppStore.ipa",
+      export_options: {
+        provisioningProfiles: {
+          "com.aistudio.mesaitakip.kvnrpd" => profile_name
+        }
+      }
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: "./build/MesaiTakip-AppStore.ipa",
+      skip_waiting_for_build_processing: true
+    )
+  end
+end

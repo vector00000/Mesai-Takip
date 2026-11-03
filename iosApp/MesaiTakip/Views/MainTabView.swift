@@ -455,9 +455,31 @@ struct IosNotificationCenterView: View {
 // MARK: - 6. Ayarlar
 struct IosSettingsView: View {
     @EnvironmentObject var store: MesaiStore
+    @StateObject private var storeKit = StoreKitManager.shared
 
     var body: some View {
         Form {
+            Section("Mesai Takip Premium (\(storeKit.displayPrice))") {
+                LabeledContent("Durum", value: storeKit.isPremium ? "Premium Aktif" : "Standart Plan")
+                Text(storeKit.statusMessage)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                if !storeKit.isPremium {
+                    Button {
+                        Task { await storeKit.purchasePremium() }
+                    } label: {
+                        Label("Mesai Takip Premium'a Geç (\(storeKit.displayPrice))", systemImage: "crown.fill")
+                    }
+                    .disabled(storeKit.isLoading)
+                }
+                Button {
+                    Task { await storeKit.restorePurchases() }
+                } label: {
+                    Label("Satın Almaları Geri Yükle (Restore Purchases)", systemImage: "arrow.clockwise.circle")
+                }
+                .disabled(storeKit.isLoading)
+            }
+
             Section("Maaş & Saatlik Ücret Tarifeleri (TL)") {
                 HStack {
                     Text("Aylık Net Maaş")
@@ -531,6 +553,7 @@ struct IosSettingsView: View {
             Section("Uygulama Bilgisi") {
                 LabeledContent("Sürüm", value: "Mesai Takip iOS v31.0 (31)")
                 LabeledContent("Paket / Bundle ID", value: store.firebaseConfig.bundleId)
+                LabeledContent("Premium Ürün ID", value: StoreKitManager.premiumProductId)
             }
         }
         .navigationTitle("Ayarlar")

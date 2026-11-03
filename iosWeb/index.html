@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Mesai Takip iOS</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Mesai Takip" />
+  <meta name="theme-color" content="#155EEF" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23155EEF'/%3E%3Ccircle cx='256' cy='256' r='150' fill='none' stroke='white' stroke-width='32'/%3E%3Cpath d='M256 160v104l72 44' fill='none' stroke='white' stroke-width='32' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --primary: #155EEF;
+      --primary-soft: #EEF4FF;
+      --bg: #F8FAFC;
+      --card: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --success: #16A34A;
+      --danger: #DC2626;
+      --warning: #D97706;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: calc(82px + env(safe-area-inset-bottom));
+      padding-top: env(safe-area-inset-top);
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { margin: 0; font-size: 19px; font-weight: 700; color: var(--text); }
+    .notif-btn {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    main { max-width: 600px; margin: 0 auto; padding: 14px; }
+    .install-banner {
+      background: linear-gradient(135deg, #155EEF, #0B46C4);
+      color: #fff;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .install-banner button {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    }
+    .card h2 { margin: 0 0 10px 0; font-size: 16px; font-weight: 700; }
+    .row { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; font-size: 14px; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-outline { background: var(--primary-soft); color: var(--primary); }
+    input, select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    label { font-size: 13px; font-weight: 600; color: var(--muted); display: block; }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill { height: 100%; background: var(--primary); }
+    nav.tabbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+      z-index: 30;
+    }
+    nav.tabbar button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+    }
+    nav.tabbar button.active { color: var(--primary); }
+    .tab-icon { font-size: 18px; }
+    .timer-display {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: center;
+      margin: 10px 0;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mesai Takip</h1>
+    <div style="display:flex;gap:6px;">
+      <a class="notif-btn" style="text-decoration:none;" href="./indir.html">📥 İndir (iOS/APK)</a>
+      <button class="notif-btn" onclick="switchTab('notifications')">
+        🔔 (<span id="unreadBadge">0</span>)
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div id="installBanner" class="install-banner">
+      <div>
+        <strong>📲 Tek Tıkla Telefonunuza İndirin (iOS &amp; Android APK):</strong><br/>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+          <a href="./Mesai-Takip-iOS.mobileconfig" download="Mesai-Takip-iOS.mobileconfig" style="background:#fff;color:#155EEF;padding:6px 12px;border-radius:8px;text-decoration:none;font-weight:700;font-size:12px;">🍎 iPhone İçin İndir</a>
+          <a href="https://github.com/vector00000/Mesai-Takip/releases/latest/download/Mesai-Takip-Android-v31.apk" style="background:#16A34A;color:#fff;padding:6px 12px;border-radius:8px;text-decoration:none;font-weight:700;font-size:12px;">🤖 Android APK İndir</a>
+        </div>
+      </div>
+      <button onclick="document.getElementById('installBanner').style.display='none'">Kapat</button>
+    </div>
+
+    <!-- TAB 1: ANA SAYFA & SAYAÇ -->
+    <section id="tab-home">
+      <div class="card">
+        <h2 id="timerTitle">⏱️ Tek Dokunuşla Mesai Sayacı</h2>
+        <div id="activeTimerBox" style="display:none;">
+          <div class="timer-display" id="liveTimerText">00:00:00</div>
+          <div class="muted" id="activeTimerMeta" style="text-align:center;margin-bottom:10px;"></div>
+          <label>Mola Süresi (Dakika)</label>
+          <input type="number" id="activeBreakInput" value="0" min="0" max="480" step="15" onchange="updateActiveBreak(this.value)" />
+          <button class="btn btn-danger" onclick="stopOvertime()">⏹️ Mesaiyi Bitir ve Kaydet</button>
+        </div>
+
+        <div id="idleTimerBox">
+          <label>Mesai Türü Seçin</label>
+          <select id="overtimeTypeSelect">
+            <option value="WEEKDAY">Hafta İçi Fazla Mesai</option>
+            <option value="NORMAL">Normal Mesai</option>
+            <option value="WEEKEND">Hafta Sonu Mesaisi</option>
+            <option value="NIGHT">Gece Vardiyası</option>
+            <option value="HOLIDAY">Resmî Tatil Mesaisi</option>
+          </select>
+          <button class="btn btn-primary" onclick="startOvertime()">▶️ Mesai Başlat</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>➕ Manuel Mesai Kaydı Ekle</h2>
+        <label>Tarih</label>
+        <input type="date" id="manualDate" />
+        <div style="display:flex;gap:10px;">
+          <div style="flex:1;">
+            <label>Başlangıç</label>
+            <input type="time" id="manualStart" value="18:00" />
+          </div>
+          <div style="flex:1;">
+            <label>Bitiş</label>
+            <input type="time" id="manualEnd" value="21:00" />
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <div style="flex:1;">
+            <label>Mola (Dk)</label>
+            <input type="number" id="manualBreak" value="0" min="0" max="240" />
+          </div>
+          <div style="flex:1;">
+            <label>Tarife Türü</label>
+            <select id="manualType">
+              <option value="WEEKDAY">Hafta İçi</option>
+              <option value="NORMAL">Normal</option>
+              <option value="WEEKEND">Hafta Sonu</option>
+              <option value="NIGHT">Gece Vardiyası</option>
+              <option value="HOLIDAY">Resmî Tatil</option>
+            </select>
+          </div>
+        </div>
+        <label>Açıklama / Not</label>
+        <input type="text" id="manualNote" placeholder="Örn: Proje teslim mesaisi" />
+        <button class="btn btn-outline" onclick="addManualRecord()">Kaydı Ekle</button>
+      </div>
+
+      <div class="card">
+        <h2>📊 Aylık Maaş & Mesai Özeti (<span id="homeMonthLabel"></span>)</h2>
+        <div class="row"><span>Sabit Net Maaş:</span><strong id="sumBaseSalary">₺0.00</strong></div>
+        <div class="row"><span>Toplam Mesai Kazancı:</span><strong style="color:var(--success)" id="sumOvertime">₺0.00</strong></div>
+        <div class="row"><span>Alınan Maaş Avansı:</span><strong style="color:var(--warning)" id="sumAdvance">-₺0.00</strong></div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:10px 0;" />
+        <div class="row"><span>Net Ödenecek Maaş Hakedişi:</span><strong style="color:var(--primary);font-size:17px;" id="sumNetPayable">₺0.00</strong></div>
+      </div>
+
+      <div class="card">
+        <h2>📋 Son Mesai Kayıtları</h2>
+        <div id="recordsList"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: BÜTÇE & RAPOR ARŞİVİ -->
+    <section id="tab-budget" style="display:none;">
+      <div class="card">
+        <h2>💰 Aylık Bütçe Mutabakatı (Çift Sayım Korumalı)</h2>
+        <p class="muted">Maaş ve avans hakedişiniz ile kişisel bütçeniz otomatik uzlaştırılır; aynı maaş iki kez gelir sayılmaz.</p>
+        <div class="row"><span>Uzlaştırılmış Toplam Gelir:</span><strong id="budTotalIncome">₺0.00</strong></div>
+        <div class="row"><span>Toplam Kişisel Giderler:</span><strong style="color:var(--danger)" id="budTotalExpense">₺0.00</strong></div>
+        <div class="row"><span>Kalan Net Bütçe Bakiyesi:</span><strong style="color:var(--primary);font-size:17px;" id="budNetBalance">₺0.00</strong></div>
+      </div>
+
+      <div class="card">
+        <h2>➕ Gelir / Gider Kaydı Ekle</h2>
+        <label>Açıklama</label>
+        <input type="text" id="budTitle" placeholder="Örn: Ev Kirası, Elektrik Faturası, Avans" />
+        <label>Tutar (TL)</label>
+        <input type="number" id="budAmount" placeholder="0.00" />
+        <label>Kategori</label>
+        <select id="budCategory">
+          <option value="RENT|EXPENSE">Kira Gideri (Gider)</option>
+          <option value="BILL|EXPENSE">Fatura Gideri (Gider)</option>
+          <option value="DEBT|EXPENSE">Borç / Kredi Ödemesi (Gider)</option>
+          <option value="PERSONAL|EXPENSE">Kişisel Harcama (Gider)</option>
+          <option value="ADVANCE|INCOME">Maaş Avansı (Maaş Hakedişinden Düşer)</option>
+          <option value="ADDITIONAL_INCOME|INCOME">Ek Gelir / Prim (Gelir)</option>
+          <option value="SALARY_TRANSFER|INCOME">Maaş Aktarımı (Çift Sayım Engelli)</option>
+        </select>
+        <button class="btn btn-primary" onclick="addBudgetTx()">Bütçe Kaydını Ekle</button>
+        <div id="budgetTxList" style="margin-top:12px;"></div>
+      </div>
+
+      <div class="card">
+        <h2>📁 Kişisel Maaş Programlama Raporu Arşivi</h2>
+        <p class="muted">Rapor oluşturulduğunda o ayın ücret tarifeleri dondurulur; sonraki tarife değişiklikleri geçmiş raporları bozmaz.</p>
+        <button class="btn btn-primary" onclick="createArchiveReport()">📄 Bu Ayın Raporunu Oluştur ve Arşivle</button>
+        <button class="btn btn-outline" onclick="exportArchiveCsv()">📊 CSV / Excel İndir</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ PDF Olarak Kaydet / Yazdır</button>
+        <div id="archiveReportsList" style="margin-top:12px;"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: TARİFELER & AKILLI DENETİM -->
+    <section id="tab-audit" style="display:none;">
+      <div class="card">
+        <h2>🛡️ Akıllı Eksik Kayıt Kontrolü</h2>
+        <div id="auditWarningsList"></div>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ Çoklu Ücret Tarifeleri (Saatlik TL)</h2>
+        <label>Aylık Sabit Net Maaş (TL)</label>
+        <input type="number" id="setBaseSalary" onchange="saveSettingsFromInputs()" />
+        <label>Normal Mesai Saatlik Ücreti (TL)</label>
+        <input type="number" id="setNormalRate" onchange="saveSettingsFromInputs()" />
+        <label>Hafta İçi Fazla Mesai Saatlik Ücreti (TL)</label>
+        <input type="number" id="setWeekdayRate" onchange="saveSettingsFromInputs()" />
+        <label>Hafta Sonu Mesai Saatlik Ücreti (TL)</label>
+        <input type="number" id="setWeekendRate" onchange="saveSettingsFromInputs()" />
+        <label>Gece Vardiyası Saatlik Ücreti (TL)</label>
+        <input type="number" id="setNightRate" onchange="saveSettingsFromInputs()" />
+        <label>Resmî Tatil Saatlik Ücreti (TL)</label>
+        <input type="number" id="setHolidayRate" onchange="saveSettingsFromInputs()" />
+        <button class="btn btn-primary" onclick="saveSettingsFromInputs(true)">Tarifeleri Kaydet</button>
+      </div>
+    </section>
+
+    <!-- TAB 4: BAŞARILAR -->
+    <section id="tab-achievements" style="display:none;">
+      <div class="card">
+        <h2>🏆 Başarı ve Kilometre Taşları</h2>
+        <p class="muted">Aynı güne ait birden fazla kayıt yalnızca 1 farklı çalışma günü olarak hesaplanır.</p>
+        <div id="achievementsList"></div>
+      </div>
+    </section>
+
+    <!-- TAB 5: BİLDİRİM MERKEZİ & FIREBASE BULUT -->
+    <section id="tab-notifications" style="display:none;">
+      <div class="card">
+        <div class="row">
+          <h2 style="margin:0;">🔔 Bildirim Merkezi</h2>
+          <button class="notif-btn" onclick="markAllNotificationsRead()">Tümünü Okundu İşaretle</button>
+        </div>
+        <div id="notificationsList" style="margin-top:12px;"></div>
+      </div>
+
+      <div class="card">
+        <h2>☁️ Firebase Bulut Bağlantısı (iOS)</h2>
+        <div class="row"><span>Firebase Proje ID:</span><strong>mesai-takip-fc13a</strong></div>
+        <div class="row"><span>Google App ID:</span><strong style="font-size:11px;">1:903542625585:ios:9c82af2ec534147ced4c10</strong></div>
+        <div class="row"><span>Paket Adı:</span><strong>com.aistudio.mesaitakip.kvnrpd</strong></div>
+        <div class="row"><span>Durum:</span><strong id="firebaseStatusText" style="color:var(--success)">Hazır</strong></div>
+        <button class="btn btn-primary" onclick="syncToFirebaseFirestore()">☁️ Firebase Buluta Şimdi Yedekle</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button id="nav-home" class="active" onclick="switchTab('home')">
+      <span class="tab-icon">⏱️</span><span>Ana Sayfa</span>
+    </button>
+    <button id="nav-budget" onclick="switchTab('budget')">
+      <span class="tab-icon">💰</span><span>Bütçe & Rapor</span>
+    </button>
+    <button id="nav-audit" onclick="switchTab('audit')">
+      <span class="tab-icon">🛡️</span><span>Tarife & Denetim</span>
+    </button>
+    <button id="nav-achievements" onclick="switchTab('achievements')">
+      <span class="tab-icon">🏆</span><span>Başarılar</span>
+    </button>
+    <button id="nav-notifications" onclick="switchTab('notifications')">
+      <span class="tab-icon">☁️</span><span>Merkez & Bulut</span>
+    </button>
+  </nav>
+
+  <script>
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyBxf2ixODrsOi1HfAQ343WrOqDO_z5eIhw",
+      projectId: "mesai-takip-fc13a",
+      googleAppId: "1:903542625585:ios:9c82af2ec534147ced4c10",
+      bundleId: "com.aistudio.mesaitakip.kvnrpd"
+    };
+
+    const state = {
+      settings: JSON.parse(localStorage.getItem('mt_settings') || 'null') || {
+        baseSalary: 35000,
+        normalRate: 180,
+        weekdayRate: 250,
+        weekendRate: 320,
+        nightRate: 290,
+        holidayRate: 400,
+        monthlyTargetDays: 20,
+        dismissedWarnings: []
+      },
+      records: JSON.parse(localStorage.getItem('mt_records') || '[]'),
+      activeOvertime: JSON.parse(localStorage.getItem('mt_active') || 'null') || { isActive: false },
+      budgetTx: JSON.parse(localStorage.getItem('mt_budget') || '[]'),
+      archives: JSON.parse(localStorage.getItem('mt_archives') || '[]'),
+      notifications: JSON.parse(localStorage.getItem('mt_notifications') || '[]')
+    };
+
+    function saveState() {
+      localStorage.setItem('mt_settings', JSON.stringify(state.settings));
+      localStorage.setItem('mt_records', JSON.stringify(state.records));
+      localStorage.setItem('mt_active', JSON.stringify(state.activeOvertime));
+      localStorage.setItem('mt_budget', JSON.stringify(state.budgetTx));
+      localStorage.setItem('mt_archives', JSON.stringify(state.archives));
+      localStorage.setItem('mt_notifications', JSON.stringify(state.notifications));
+      renderAll();
+    }
+
+    function todayStr() {
+      return new Date().toISOString().slice(0, 10);
+    }
+    function currentYearMonth() {
+      return new Date().toISOString().slice(0, 7);
+    }
+    function nowTimeStr() {
+      const d = new Date();
+      return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+    }
+
+    function rateForType(type) {
+      switch(type) {
+        case 'NORMAL': return Number(state.settings.normalRate) || 180;
+        case 'WEEKDAY': return Number(state.settings.weekdayRate) || 250;
+        case 'WEEKEND': return Number(state.settings.weekendRate) || 320;
+        case 'NIGHT': return Number(state.settings.nightRate) || 290;
+        case 'HOLIDAY': return Number(state.settings.holidayRate) || 400;
+        default: return Number(state.settings.weekdayRate) || 250;
+      }
+    }
+
+    function recordNotification(eventKey, title, message) {
+      if (state.notifications.some(n => n.eventKey === eventKey)) return;
+      state.notifications.unshift({
+        id: Date.now() + Math.random(),
+        eventKey,
+        title,
+        message,
+        dateStr: new Date().toLocaleString('tr-TR'),
+        isRead: false
+      });
+    }
+
+    function startOvertime() {
+      if (state.activeOvertime.isActive) return;
+      const type = document.getElementById('overtimeTypeSelect').value;
+      state.activeOvertime = {
+        isActive: true,
+        startEpochMs: Date.now(),
+        startTimeStr: nowTimeStr(),
+        dateStr: todayStr(),
+        type,
+        hourlyRate: rateForType(type),
+        breakMinutes: 0
+      };
+      saveState();
+    }
+
+    function updateActiveBreak(val) {
+      if (!state.activeOvertime.isActive) return;
+      state.activeOvertime.breakMinutes = Math.max(0, Math.min(480, Number(val) || 0));
+      saveState();
+    }
+
+    function stopOvertime() {
+      if (!state.activeOvertime.isActive) return;
+      const grossMin = Math.max(1, Math.floor((Date.now() - state.activeOvertime.startEpochMs) / 60000));
+      const breakMin = Math.max(0, Number(state.activeOvertime.breakMinutes) || 0);
+      const netMin = Math.max(1, grossMin - breakMin);
+      const rate = Number(state.activeOvertime.hourlyRate) || 250;
+      const amount = (netMin / 60.0) * rate;
+
+      state.records.unshift({
+        id: 'rec_' + Date.now(),
+        date: state.activeOvertime.dateStr || todayStr(),
+        startTimeStr: state.activeOvertime.startTimeStr,
+        endTimeStr: nowTimeStr(),
+        durationMinutes: netMin,
+        breakMinutes: breakMin,
+        hourlyRate: rate,
+        totalAmount: amount,
+        type: state.activeOvertime.type,
+        note: 'Sayaç ile kaydedildi'
+      });
+      state.activeOvertime = { isActive: false };
+      checkAchievements();
+      saveState();
+    }
+
+    function addManualRecord() {
+      const date = document.getElementById('manualDate').value || todayStr();
+      const start = document.getElementById('manualStart').value || '18:00';
+      const end = document.getElementById('manualEnd').value || '21:00';
+      const breakMin = Math.max(0, Number(document.getElementById('manualBreak').value) || 0);
+      const type = document.getElementById('manualType').value;
+      const note = document.getElementById('manualNote').value || '';
+
+      const [sh, sm] = start.split(':').map(Number);
+      const [eh, em] = end.split(':').map(Number);
+      let sTotal = sh * 60 + sm;
+      let eTotal = eh * 60 + em;
+      if (eTotal <= sTotal) eTotal += 24 * 60;
+      const grossMin = Math.max(1, eTotal - sTotal);
+      const netMin = Math.max(1, grossMin - breakMin);
+      const rate = rateForType(type);
+
+      state.records.unshift({
+        id: 'rec_' + Date.now(),
+        date,
+        startTimeStr: start,
+        endTimeStr: end,
+        durationMinutes: netMin,
+        breakMinutes: breakMin,
+        hourlyRate: rate,
+        totalAmount: (netMin / 60.0) * rate,
+        type,
+        note
+      });
+      document.getElementById('manualNote').value = '';
+      checkAchievements();
+      saveState();
+    }
+
+    function deleteRecord(id) {
+      state.records = state.records.filter(r => r.id !== id);
+      saveState();
+    }
+
+    function calculateBudgetSummary(ym) {
+      const monthRecs = state.records.filter(r => r.date.startsWith(ym));
+      const monthTx = state.budgetTx.filter(t => t.yearMonth === ym);
+      const baseSalary = Number(state.settings.baseSalary) || 0;
+      const overtimeTotal = monthRecs.reduce((acc, r) => acc + Number(r.totalAmount || 0), 0);
+      const advanceTotal = monthTx.filter(t => t.category === 'ADVANCE').reduce((acc, t) => acc + Number(t.amount || 0), 0);
+      const extraIncome = monthTx.filter(t => t.type === 'INCOME' && t.category !== 'ADVANCE' && t.category !== 'SALARY_TRANSFER').reduce((acc, t) => acc + Number(t.amount || 0), 0);
+      const totalExpense = monthTx.filter(t => t.type === 'EXPENSE').reduce((acc, t) => acc + Number(t.amount || 0), 0);
+
+      const netPayableSalary = Math.max(0, baseSalary + overtimeTotal - advanceTotal);
+      const totalReconciledIncome = baseSalary + overtimeTotal + extraIncome;
+      return {
+        baseSalary,
+        overtimeTotal,
+        advanceTotal,
+        extraIncome,
+        totalExpense,
+        netPayableSalary,
+        totalReconciledIncome,
+        netBalance: totalReconciledIncome - totalExpense
+      };
+    }
+
+    function addBudgetTx() {
+      const title = document.getElementById('budTitle').value.trim();
+      const amount = Number(document.getElementById('budAmount').value);
+      const [category, type] = document.getElementById('budCategory').value.split('|');
+      if (!title || !amount || amount <= 0) return;
+      state.budgetTx.unshift({
+        id: 'tx_' + Date.now(),
+        title,
+        amount,
+        category,
+        type,
+        yearMonth: currentYearMonth(),
+        dateStr: todayStr()
+      });
+      document.getElementById('budTitle').value = '';
+      document.getElementById('budAmount').value = '';
+      saveState();
+    }
+
+    function createArchiveReport() {
+      const ym = currentYearMonth();
+      const sum = calculateBudgetSummary(ym);
+      const monthRecs = state.records.filter(r => r.date.startsWith(ym));
+      const distinctDays = new Set(monthRecs.map(r => r.date)).size;
+      const report = {
+        id: 'rep_' + Date.now(),
+        yearMonth: ym,
+        title: ym + ' Kişisel Maaş Programlama Raporu',
+        createdAt: new Date().toLocaleString('tr-TR'),
+        workingDays: distinctDays,
+        recordsCount: monthRecs.length,
+        netPayable: sum.netPayableSalary,
+        snapshotWeekdayRate: state.settings.weekdayRate,
+        snapshotWeekendRate: state.settings.weekendRate
+      };
+      state.archives.unshift(report);
+      checkAchievements();
+      saveState();
+    }
+
+    function exportArchiveCsv() {
+      let csv = 'Tarih,Baslangic,Bitis,NetDakika,MolaDakika,SaatlikUcret,ToplamTutar,Not\n';
+      state.records.forEach(r => {
+        csv += `${r.date},${r.startTimeStr},${r.endTimeStr},${r.durationMinutes},${r.breakMinutes},${r.hourlyRate},${r.totalAmount.toFixed(2)},"${(r.note||'').replace(/"/g,'""')}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `MesaiTakip-Rapor-${currentYearMonth()}.csv`;
+      a.click();
+    }
+
+    function saveSettingsFromInputs(notify) {
+      state.settings.baseSalary = Number(document.getElementById('setBaseSalary').value) || 35000;
+      state.settings.normalRate = Number(document.getElementById('setNormalRate').value) || 180;
+      state.settings.weekdayRate = Number(document.getElementById('setWeekdayRate').value) || 250;
+      state.settings.weekendRate = Number(document.getElementById('setWeekendRate').value) || 320;
+      state.settings.nightRate = Number(document.getElementById('setNightRate').value) || 290;
+      state.settings.holidayRate = Number(document.getElementById('setHolidayRate').value) || 400;
+      if (notify) {
+        recordNotification('TARIFF_UPDATED_' + Date.now(), 'Ücret Tarifeleri Güncellendi', 'Yeni saatlik mesai tarifeleriniz kaydedildi. Geçmiş arşiv raporları korundu.');
+      }
+      saveState();
+    }
+
+    function computeAchievements() {
+      const distinctDays = Array.from(new Set(state.records.map(r => r.date))).sort();
+      const count = distinctDays.length;
+      return [
+        { id: 'FIRST_VALID_RECORD', title: 'İlk Mesai Kaydı', desc: 'İlk doğrulanmış mesai kaydınızı oluşturun.', current: Math.min(1, state.records.length), target: 1 },
+        { id: 'DISTINCT_DAYS_7', title: '7 Farklı Çalışma Günü', desc: '7 farklı takvim gününde mesai kaydı oluşturun.', current: Math.min(7, count), target: 7 },
+        { id: 'DISTINCT_DAYS_30', title: '30 Farklı Çalışma Günü', desc: '30 farklı takvim gününde düzenli mesai kaydı oluşturun.', current: Math.min(30, count), target: 30 },
+        { id: 'DISTINCT_DAYS_100', title: '100 Farklı Çalışma Günü', desc: '100 farklı takvim gününde çalışma geçmişine ulaşın.', current: Math.min(100, count), target: 100 },
+        { id: 'FIRST_MONTHLY_REPORT', title: 'İlk Aylık Çalışma Raporu', desc: 'Kişisel Maaş Programlama Raporu arşivine ilk raporunuzu ekleyin.', current: Math.min(1, state.archives.length), target: 1 }
+      ];
+    }
+
+    function checkAchievements() {
+      computeAchievements().forEach(b => {
+        if (b.current >= b.target) {
+          recordNotification('ACH_' + b.id, 'Yeni Başarı Kazanıldı: ' + b.title, b.desc);
+        }
+      });
+    }
+
+    function markAllNotificationsRead() {
+      state.notifications.forEach(n => n.isRead = true);
+      saveState();
+    }
+
+    async function syncToFirebaseFirestore() {
+      const statusEl = document.getElementById('firebaseStatusText');
+      statusEl.textContent = 'Yedekleniyor...';
+      let deviceId = localStorage.getItem('mt_ios_device_id');
+      if (!deviceId) {
+        deviceId = 'ios_web_' + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem('mt_ios_device_id', deviceId);
+      }
+      const url = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/ios_backups/${deviceId}?key=${FIREBASE_CONFIG.apiKey}`;
+      const body = {
+        fields: {
+          bundleId: { stringValue: FIREBASE_CONFIG.bundleId },
+          googleAppId: { stringValue: FIREBASE_CONFIG.googleAppId },
+          updatedAt: { stringValue: new Date().toISOString() },
+          recordsCount: { integerValue: String(state.records.length) },
+          payloadJson: { stringValue: JSON.stringify(state) }
+        }
+      };
+      try {
+        const res = await fetch(url, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        if (res.ok) {
+          const stamp = new Date().toLocaleTimeString('tr-TR');
+          statusEl.textContent = 'Yedeklendi (' + stamp + ')';
+          recordNotification('FB_SYNC_' + Date.now(), 'Firebase Bulut Yedekleme Başarılı', `${state.records.length} mesai kaydı mesai-takip-fc13a projesine yedeklendi.`);
+          saveState();
+        } else {
+          statusEl.textContent = 'Yerel Depolamada Korunuyor (HTTP ' + res.status + ')';
+        }
+      } catch (e) {
+        statusEl.textContent = 'Çevrimdışı Yerel Korumada';
+      }
+    }
+
+    function switchTab(tab) {
+      ['home','budget','audit','achievements','notifications'].forEach(t => {
+        document.getElementById('tab-' + t).style.display = (t === tab) ? 'block' : 'none';
+        const btn = document.getElementById('nav-' + t);
+        if (btn) btn.className = (t === tab) ? 'active' : '';
+      });
+    }
+
+    function renderAll() {
+      const ym = currentYearMonth();
+      document.getElementById('homeMonthLabel').textContent = ym;
+      document.getElementById('unreadBadge').textContent = state.notifications.filter(n => !n.isRead).length;
+
+      // Active timer
+      if (state.activeOvertime.isActive) {
+        document.getElementById('activeTimerBox').style.display = 'block';
+        document.getElementById('idleTimerBox').style.display = 'none';
+        document.getElementById('activeTimerMeta').textContent = `Başlangıç: ${state.activeOvertime.startTimeStr} • Saatlik: ₺${state.activeOvertime.hourlyRate}`;
+        document.getElementById('activeBreakInput').value = state.activeOvertime.breakMinutes || 0;
+      } else {
+        document.getElementById('activeTimerBox').style.display = 'none';
+        document.getElementById('idleTimerBox').style.display = 'block';
+      }
+
+      // Summary
+      const sum = calculateBudgetSummary(ym);
+      document.getElementById('sumBaseSalary').textContent = '₺' + sum.baseSalary.toFixed(2);
+      document.getElementById('sumOvertime').textContent = '+₺' + sum.overtimeTotal.toFixed(2);
+      document.getElementById('sumAdvance').textContent = '-₺' + sum.advanceTotal.toFixed(2);
+      document.getElementById('sumNetPayable').textContent = '₺' + sum.netPayableSalary.toFixed(2);
+
+      document.getElementById('budTotalIncome').textContent = '₺' + sum.totalReconciledIncome.toFixed(2);
+      document.getElementById('budTotalExpense').textContent = '₺' + sum.totalExpense.toFixed(2);
+      document.getElementById('budNetBalance').textContent = '₺' + sum.netBalance.toFixed(2);
+
+      // Records
+      const recContainer = document.getElementById('recordsList');
+      if (state.records.length === 0) {
+        recContainer.innerHTML = '<p class="muted">Henüz mesai kaydı bulunmuyor.</p>';
+      } else {
+        recContainer.innerHTML = state.records.slice(0, 15).map(r => `
+          <div class="row" style="border-bottom:1px solid var(--border);padding-bottom:8px;">
+            <div>
+              <strong>${r.date} (${r.startTimeStr} - ${r.endTimeStr})</strong><br/>
+              <span class="muted">Net: ${r.durationMinutes} dk • Mola: ${r.breakMinutes} dk ${r.note ? '• ' + r.note : ''}</span>
+            </div>
+            <div style="text-align:right;">
+              <strong style="color:var(--primary)">₺${Number(r.totalAmount).toFixed(2)}</strong><br/>
+              <button onclick="deleteRecord('${r.id}')" style="border:none;background:none;color:var(--danger);font-size:12px;cursor:pointer;">Sil</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Archives
+      const archContainer = document.getElementById('archiveReportsList');
+      archContainer.innerHTML = state.archives.map(a => `
+        <div style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px;">
+          <strong>${a.title}</strong><br/>
+          <span class="muted">${a.createdAt} • ${a.workingDays} Gün • Net Hakediş: ₺${Number(a.netPayable).toFixed(2)}</span><br/>
+          <span class="muted">Dondurulmuş Tarife — H.İçi: ₺${a.snapshotWeekdayRate} / H.Sonu: ₺${a.snapshotWeekendRate}</span>
+        </div>
+      `).join('');
+
+      // Audit Warnings
+      const warnings = state.records.filter(r => r.durationMinutes > 720);
+      const auditEl = document.getElementById('auditWarningsList');
+      if (warnings.length === 0) {
+        auditEl.innerHTML = '<p class="muted">✅ Tüm mesai kayıtlarınız eksiksiz ve tutarlı görünüyor.</p>';
+      } else {
+        auditEl.innerHTML = warnings.map(w => `
+          <div style="padding:8px;background:#FFFBEB;border-radius:10px;margin-bottom:8px;">
+            <strong style="color:var(--warning)">⚠️ Olağan Dışı Uzun Çalışma Süresi (${w.date})</strong><br/>
+            <span class="muted">${Math.floor(w.durationMinutes/60)} saat ${w.durationMinutes%60} dk mesai kaydı tespit edildi.</span>
+          </div>
+        `).join('');
+      }
+
+      // Settings inputs
+      document.getElementById('setBaseSalary').value = state.settings.baseSalary;
+      document.getElementById('setNormalRate').value = state.settings.normalRate;
+      document.getElementById('setWeekdayRate').value = state.settings.weekdayRate;
+      document.getElementById('setWeekendRate').value = state.settings.weekendRate;
+      document.getElementById('setNightRate').value = state.settings.nightRate;
+      document.getElementById('setHolidayRate').value = state.settings.holidayRate;
+
+      // Achievements
+      const achEl = document.getElementById('achievementsList');
+      achEl.innerHTML = computeAchievements().map(b => {
+        const pct = Math.min(100, Math.round((b.current / b.target) * 100));
+        return `
+          <div style="margin-bottom:14px;">
+            <div class="row" style="margin:2px 0;">
+              <strong>${b.current >= b.target ? '✅' : '🔒'} ${b.title}</strong>
+              <span class="badge">%${pct}</span>
+            </div>
+            <div class="muted">${b.desc}</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          </div>
+        `;
+      }).join('');
+
+      // Notifications
+      const notifEl = document.getElementById('notificationsList');
+      if (state.notifications.length === 0) {
+        notifEl.innerHTML = '<p class="muted">Henüz bildirim bulunmuyor.</p>';
+      } else {
+        notifEl.innerHTML = state.notifications.map(n => `
+          <div style="border-bottom:1px solid var(--border);padding:8px 0;">
+            <strong>${n.isRead ? '' : '🔵 '}${n.title}</strong>
+            <div class="muted">${n.message}</div>
+            <div class="muted" style="font-size:11px;">${n.dateStr}</div>
+          </div>
+        `).join('');
+      }
+    }
+
+    setInterval(() => {
+      if (state.activeOvertime.isActive) {
+        const diffSec = Math.max(0, Math.floor((Date.now() - state.activeOvertime.startEpochMs) / 1000));
+        const h = String(Math.floor(diffSec / 3600)).padStart(2, '0');
+        const m = String(Math.floor((diffSec % 3600) / 60)).padStart(2, '0');
+        const s = String(diffSec % 60).padStart(2, '0');
+        const el = document.getElementById('liveTimerText');
+        if (el) el.textContent = `${h}:${m}:${s}`;
+      }
+    }, 1000);
+
+    document.getElementById('manualDate').value = todayStr();
+    recordNotification('DAILY_REMINDER_' + todayStr(), 'Mesai Takip iOS Hazır', 'Bugünkü mesai sayacınızı veya kayıtlarınızı tek dokunuşla yönetebilirsiniz.');
+    renderAll();
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
