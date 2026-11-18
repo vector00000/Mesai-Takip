@@ -1,4 +1,4 @@
-name: Build Mesai Takip iOS & Publish Direct Download Links (APK + iOS IPA)
+name: Build Mesai Takip (Windows Store MSIX + iOS IPA + Android APK)
 
 on:
   workflow_dispatch:
@@ -11,6 +11,55 @@ permissions:
   id-token: write
 
 jobs:
+  build-windows-msix:
+    name: Build Microsoft Store MSIX Package (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Compile MesaiTakip.exe & Package Microsoft Store MSIX
+        shell: pwsh
+        run: |
+          $csc = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+          mkdir -Force windows_pkg\Assets
+          Copy-Item "windowsApp\Assets\*" "windows_pkg\Assets\" -Recurse -Force
+          Copy-Item "windowsApp\index.html" "windows_pkg\index.html" -Force
+          Copy-Item "windowsApp\manifest.json" "windows_pkg\manifest.json" -Force
+          Copy-Item "windowsApp\sw.js" "windows_pkg\sw.js" -Force
+          Copy-Item "windowsApp\support.html" "windows_pkg\support.html" -Force
+
+          # Compile Windows Executable (AnyCPU / neutral)
+          & $csc /target:winexe /out:windows_pkg\MesaiTakip.exe /r:System.Windows.Forms.dll /r:System.Drawing.dll windowsApp\Program.cs
+
+          # Copy AppxManifest.xml
+          Copy-Item "windowsApp\AppxManifest.xml" "windows_pkg\AppxManifest.xml" -Force
+
+          # Locate MakeAppx.exe from Windows 10/11 SDK
+          $makeappx = Get-ChildItem -Path "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\makeappx.exe" | Sort-Object FullName -Descending | Select-Object -First 1 -ExpandProperty FullName
+          Write-Host "Using MakeAppx: $makeappx"
+
+          & $makeappx pack /d windows_pkg /p MesaiTakip-WindowsStore-v31.msix /nv /o
+          dir MesaiTakip-WindowsStore-v31.msix
+
+      - name: Upload Microsoft Store MSIX Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MesaiTakip-MicrosoftStore-MSIX-Paketi
+          path: MesaiTakip-WindowsStore-v31.msix
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish MSIX to GitHub Releases (v31.0)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v31.0
+          name: "Mesai Takip v31.0 — Microsoft Store (.MSIX), iOS (.IPA) ve Android (.APK)"
+          files: |
+            MesaiTakip-WindowsStore-v31.msix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-ios-and-release:
     name: Build Real iOS IPA & Publish Release (IPA + APK)
     runs-on: macos-14
@@ -68,10 +117,11 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v31.0
-          name: "Mesai Takip v31.0 — Gerçek iOS (.IPA) ve Android (.APK) Kurulum Dosyaları"
+          name: "Mesai Takip v31.0 — Microsoft Store (.MSIX), iOS (.IPA) ve Android (.APK)"
           body: |
             ## 📲 Mesai Takip v31.0 — Doğrudan İndirme Linkleri
             Aşağıdaki **Assets** bölümünden gerçek kurulum paketlerini doğrudan indirebilirsiniz:
+            - **🪟 Microsoft Store Kurulum Paketi (.MSIX):** `MesaiTakip-WindowsStore-v31.msix`
             - **🍎 Gerçek iOS Kurulum Paketi (.IPA):** `MesaiTakip-iOS-v31.ipa`
             - **🤖 Gerçek Android Kurulum Paketi (.APK):** `Mesai-Takip-Android-v31.apk`
           files: |

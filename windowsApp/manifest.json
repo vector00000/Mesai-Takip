@@ -1,0 +1,19 @@
+{
+  "name": "Mesai Takip",
+  "short_name": "Mesai Takip",
+  "description": "Mesai Takip, Maaş Hesaplama, Gelir-Gider Bütçe ve Rapor Arşivi (v31.0)",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#155EEF",
+  "orientation": "portrait",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%23155EEF'/%3E%3Ccircle cx='256' cy='256' r='150' fill='none' stroke='white' stroke-width='32'/%3E%3Cpath d='M256 160v104l72 44' fill='none' stroke='white' stroke-width='32' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
